@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medcs/features/home/data/models/product_model.dart';
 import 'package:medcs/features/home/prsentation/widgets/custom_product_card.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/search/presentation/widgets/search_field.dart';
@@ -17,7 +18,13 @@ TextEditingController _searchController = TextEditingController();
 class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
-    final productProvider = context.watch<ProductProvider>();
+    final productProvider = Provider.of<ProductProvider>(context);
+    String? categoryName =
+        ModalRoute.of(context)!.settings.arguments as String?;
+    final List<ProductsModel> productList = categoryName == null
+        ? productProvider.getProducts
+        : productProvider.findByCategory(categoryName: categoryName);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -42,12 +49,12 @@ class _SearchViewState extends State<SearchView> {
                 padding: const EdgeInsets.all(8.0),
                 child: DynamicHeightGridView(
                   builder: (context, index) => ChangeNotifierProvider.value(
-                    value: productProvider.getProducts[index],
+                    value: productList[index],
                     child: CustomProductCard(
-                      productId: productProvider.getProducts[index].id,
+                      productId: productList[index].id,
                     ),
                   ),
-                  itemCount: productProvider.getProducts.length,
+                  itemCount: productList.length,
                   crossAxisCount: 2,
                 ),
               ),

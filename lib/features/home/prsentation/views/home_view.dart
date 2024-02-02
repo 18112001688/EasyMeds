@@ -8,9 +8,11 @@ import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/home/prsentation/manger/product/them_provider/theme_provider.dart';
+import 'package:medcs/features/home/prsentation/views/product_details_view.dart';
 import 'package:medcs/features/home/prsentation/widgets/custom_product_card.dart';
 import 'package:medcs/features/home/prsentation/widgets/upload_prescription_card.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
+import 'package:medcs/features/search/presentation/views/search_view.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -168,7 +170,7 @@ class _HomeViewState extends State<HomeView> {
                       AppConstent.categoriesList.length,
                       (index) => CustomCategoryRounded(
                         image: AppConstent.categoriesList[index].image,
-                        text: AppConstent.categoriesList[index].categoryName,
+                        name: AppConstent.categoriesList[index].categoryName,
                       ),
                     ),
                   ),
@@ -199,43 +201,54 @@ class _HomeViewState extends State<HomeView> {
 
 class CustomCategoryRounded extends StatelessWidget {
   const CustomCategoryRounded(
-      {super.key, required this.image, required this.text});
+      {super.key, required this.image, required this.name});
   final String image;
-  final String text;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 30, top: 20),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(
-                    width: 1,
-                    color: themeProvider.isDarkMode
-                        ? AppColors.secondryScaffold
-                        : const Color(0xffE8F3F1))),
-            child: CircleAvatar(
-                backgroundColor: themeProvider.isDarkMode
-                    ? AppColors.secondryScaffold
-                    : AppColors.scaffoldLightMode,
-                radius: 25,
-                child: SvgPicture.asset(image)),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            settings: RouteSettings(arguments: name),
+            builder: ((context) => const SearchView()),
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            text,
-            style: themeProvider.isDarkMode
-                ? StylesDark.bodyExtraSmall11Wite
-                : StylesLight.bodyExtraSmall11,
-          )
-        ],
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 30, top: 20),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(
+                      width: 1,
+                      color: themeProvider.isDarkMode
+                          ? AppColors.secondryScaffold
+                          : const Color(0xffE8F3F1))),
+              child: CircleAvatar(
+                  backgroundColor: themeProvider.isDarkMode
+                      ? AppColors.secondryScaffold
+                      : AppColors.scaffoldLightMode,
+                  radius: 25,
+                  child: SvgPicture.asset(image)),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              name,
+              style: themeProvider.isDarkMode
+                  ? StylesDark.bodyExtraSmall11Wite
+                  : StylesLight.bodyExtraSmall11,
+            )
+          ],
+        ),
       ),
     );
   }
