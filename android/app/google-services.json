@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "223178606994",
+    "project_id": "easymeds-database",
+    "storage_bucket": "easymeds-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223178606994:android:cae7124fb743e9271a594b",
+        "android_client_info": {
+          "package_name": "com.example.medcs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRoNmEarVA9KN0cYXPoneUrhpIQsyCmRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

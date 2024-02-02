@@ -1,0 +1,286 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/images.dart';
+import 'package:medcs/core/utlity/sanck_bar.dart';
+import 'package:medcs/features/auth/prsentation/manger/auth.dart';
+import 'package:medcs/features/auth/prsentation/widgets/custom_or_widget.dart';
+import 'package:medcs/features/auth/prsentation/widgets/custom_signin_with.dart';
+import 'package:medcs/features/auth/prsentation/widgets/email_form_field.dart';
+import 'package:medcs/features/auth/prsentation/widgets/pass_form_field.dart';
+import 'package:medcs/features/auth/prsentation/widgets/username_field.dart';
+import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+class SignUpViewImp extends StatefulWidget {
+  const SignUpViewImp({super.key});
+
+  @override
+  State<SignUpViewImp> createState() => _SignUpViewImpState();
+}
+
+bool _isAgreed = false;
+bool _isLoding = false;
+
+TextEditingController emailController = TextEditingController();
+TextEditingController passController = TextEditingController();
+final _form = GlobalKey<FormState>();
+
+class _SignUpViewImpState extends State<SignUpViewImp> {
+  @override
+  Widget build(BuildContext context) {
+    return ModalProgressHUD(
+      color: AppColors.primaryColor,
+      inAsyncCall: _isLoding,
+      child: Form(
+        key: _form,
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.arrow_back)),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 100),
+                      child: Text(
+                        'Sign up',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'inter',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                const CustomUsernameFormField(),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomEmailFormField(
+                  controller: emailController,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomPasswordFormField(
+                  controller: passController,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)),
+                        activeColor: AppColors.primaryColor,
+                        value: _isAgreed,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _isAgreed = newValue!;
+                          });
+                        }),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'I agree to the medidoc ',
+                              style: TextStyle(fontFamily: 'inter'),
+                            ),
+                            GestureDetector(
+                              onTap: () {},
+                              child: const Text(
+                                'Terms of Service',
+                                style: TextStyle(
+                                    color: AppColors.primaryColor,
+                                    fontFamily: 'inter'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(right: 135),
+                          child: Row(
+                            children: [
+                              Text('and'),
+                              Text(
+                                ' Privacy Policy',
+                                style: TextStyle(
+                                    color: AppColors.primaryColor,
+                                    fontFamily: 'inter'),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomPrimaryButton(
+                  fontSize: 16,
+                  label: 'Sign up', //
+                  //!_isAgreed is true: The user has not agreed to the terms. Show an error message.
+                  onPressed: () {
+                    if (!_isAgreed) {
+                      // Show error message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          CustomSnackBar.buildSnackBar(
+                              message:
+                                  'Please agree to the terms and policy to proceed!',
+                              color: Colors.red));
+                    } else {
+                      signUp(context);
+                      // ...
+                    }
+                  },
+                  color: AppColors.primaryColor,
+                  borderRadius: 32,
+                  height: MediaQuery.of(context).size.height * 0.072,
+                  width: MediaQuery.of(context).size.width * 0.91,
+                  borderColor: AppColors.primaryColor,
+                  labelColor: Colors.white,
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                const CustomOrWidget(),
+                const SizedBox(
+                  height: 45,
+                ),
+                CustomSigninWithButton(
+                  text: 'Sign in with google',
+                  onPressed: () {
+                    try {
+                      AuthSevice.signInWithGoogle().then((value) =>
+                          GoRouter.of(context).push('/BottomNavBarView'));
+                    } on Exception catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          CustomSnackBar.buildSnackBar(
+                              message: "$e", color: Colors.red));
+                    }
+                  },
+                  textColor: Colors.black,
+                  image: AppImages.google,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomSigninWithButton(
+                  text: 'Sign in with facebook',
+                  onPressed: () {
+                    try {
+                      AuthSevice.signInWithFacebook().then((value) =>
+                          GoRouter.of(context).push('/BottomNavBarView'));
+                    } on Exception catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          CustomSnackBar.buildSnackBar(
+                              message: "$e", color: Colors.red));
+                    }
+                  },
+                  textColor: Colors.black,
+                  image: AppImages.facebook,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> signUp(BuildContext context) async {
+    if (_form.currentState!.validate()) {
+      setState(() {
+        _isLoding = true;
+      });
+
+      try {
+        final String email = emailController.text.trim();
+        final String password = passController.text.trim();
+
+        // Create the user and send verification email immediately
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((userCredential) =>
+                userCredential.user!.sendEmailVerification());
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            CustomSnackBar.buildSnackBar(
+              message: 'Verification email sent. Please check your inbox.',
+              color: Colors.green,
+            ),
+          );
+          GoRouter.of(context).push('/LoginView');
+        }
+
+        setState(() {
+          _isLoding = false;
+        });
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          _isLoding = false;
+        });
+        if (mounted) {
+          if (e.code == 'weak-password') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              CustomSnackBar.buildSnackBar(
+                message:
+                    'The given password is invalid, Password should be at least 6 characters',
+                color: Colors.red,
+              ),
+            );
+
+            // Handle weak password error
+          } else if (e.code == 'email-already-in-use') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              CustomSnackBar.buildSnackBar(
+                message: 'The email is already in use!',
+                color: Colors.red,
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              CustomSnackBar.buildSnackBar(
+                message: 'Error during user registration: $e',
+                color: Colors.red,
+              ),
+            );
+          }
+        }
+      } catch (e) {
+        setState(() {
+          _isLoding = false;
+        });
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            CustomSnackBar.buildSnackBar(
+              message: 'An unexpected error occurred. Please try again.',
+              color: Colors.red,
+            ),
+          );
+        }
+      }
+    }
+  }
+}

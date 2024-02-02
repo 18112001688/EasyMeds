@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">easyMeds</string>
+    <string name="facebook_app_id">331854306388166</string>
+    <string name="fb_login_protocol_scheme">fba33ba69dd41717cc41a2b3bd5b007fce</string>
+    <string name="facebook_client_token">73b3446759459fdfd56a257a354cb6b2</string>
+
+</resources>
