@@ -25,13 +25,18 @@ class ProductProvider with ChangeNotifier {
     return ctgList;
   }
 
-  List<ProductsModel> searchQuery({required String categoryName}) {
-    List<ProductsModel> ctgList = _products
+// Function to filter products based on a search text.
+  List<ProductsModel> searchQuery(
+      {required String searchText, required List<ProductsModel> passedList}) {
+    // Using the `where` method to filter the list of products (_products).
+    // The condition checks if the lowercase title of each product contains the lowercase searchText.
+    List<ProductsModel> searchList = passedList
         .where((element) =>
-            element.category.toLowerCase().contains(categoryName.toLowerCase()))
+            element.title.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
 
-    return ctgList;
+    // Returning the filtered list of products.
+    return searchList;
   }
 
   final List<ProductsModel> _products = [

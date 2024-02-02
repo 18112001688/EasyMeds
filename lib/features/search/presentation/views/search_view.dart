@@ -14,13 +14,18 @@ class SearchView extends StatefulWidget {
 }
 
 TextEditingController _searchController = TextEditingController();
+List<ProductsModel> productSearchList = [];
 
 class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
-    String? categoryName =
-        ModalRoute.of(context)!.settings.arguments as String?;
+    String? categoryName;
+
+// Check if arguments is not null and is of the expected type
+    if (ModalRoute.of(context)!.settings.arguments is String) {
+      categoryName = ModalRoute.of(context)!.settings.arguments as String?;
+    }
     final List<ProductsModel> productList = categoryName == null
         ? productProvider.getProducts
         : productProvider.findByCategory(categoryName: categoryName);
@@ -39,22 +44,44 @@ class _SearchViewState extends State<SearchView> {
                     padding: const EdgeInsets.all(4.0),
                     child: SearchFormField(
                       searchController: _searchController,
+                      onChanged: (vlaue) {
+                        setState(() {
+                          productSearchList = productProvider.searchQuery(
+                              searchText: _searchController.text,
+                              passedList: productList);
+                        });
+                      },
+                      onSubmitted: (value) {
+                        setState(() {
+                          productSearchList = productProvider.searchQuery(
+                              searchText: _searchController.text,
+                              passedList: productList);
+                        });
+                      },
                     ),
                   ),
                 ),
               ],
             ),
+            if (_searchController.text.isNotEmpty && productList.isEmpty) ...[
+              const Center(
+                  child: Text(
+                'No Result Found',
+                style: TextStyle(fontSize: 40, color: Colors.black),
+              ))
+            ],
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DynamicHeightGridView(
-                  builder: (context, index) => ChangeNotifierProvider.value(
-                    value: productList[index],
-                    child: CustomProductCard(
-                      productId: productList[index].id,
-                    ),
+                  builder: (context, index) => CustomProductCard(
+                    productId: _searchController.text.isNotEmpty
+                        ? productSearchList[index].id
+                        : productList[index].id,
                   ),
-                  itemCount: productList.length,
+                  itemCount: _searchController.text.isNotEmpty
+                      ? productSearchList.length
+                      : productList.length,
                   crossAxisCount: 2,
                 ),
               ),

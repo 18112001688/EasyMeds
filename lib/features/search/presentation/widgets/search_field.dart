@@ -6,9 +6,15 @@ import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provi
 import 'package:provider/provider.dart';
 
 class SearchFormField extends StatefulWidget {
-  const SearchFormField({Key? key, required this.searchController})
+  const SearchFormField(
+      {Key? key,
+      required this.searchController,
+      required this.onChanged,
+      required this.onSubmitted})
       : super(key: key);
   final TextEditingController searchController;
+  final Function(String) onChanged;
+  final Function(String) onSubmitted;
 
   @override
   State<SearchFormField> createState() => _SearchFormFieldState();
@@ -57,11 +63,8 @@ class _SearchFormFieldState extends State<SearchFormField> {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         ),
-        onChanged: (value) {
-          // Handle search input changes here
-          // Example: Filter product list based on the search query
-        },
-        onSubmitted: (value) {},
+        onChanged: widget.onChanged,
+        onSubmitted: widget.onSubmitted,
       ),
     );
   }
