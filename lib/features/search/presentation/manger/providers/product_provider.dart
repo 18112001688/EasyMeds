@@ -25,6 +25,15 @@ class ProductProvider with ChangeNotifier {
     return ctgList;
   }
 
+  List<ProductsModel> searchQuery({required String categoryName}) {
+    List<ProductsModel> ctgList = _products
+        .where((element) =>
+            element.category.toLowerCase().contains(categoryName.toLowerCase()))
+        .toList();
+
+    return ctgList;
+  }
+
   final List<ProductsModel> _products = [
     ProductsModel(
       title: "Paracetamol",
@@ -34,7 +43,7 @@ class ProductProvider with ChangeNotifier {
       quantity: 20,
       image: "path_to_paracetamol_image",
       id: const Uuid().v4(),
-      category: "Medicine",
+      category: "basic",
     ),
     ProductsModel(
       title: "Aspirin",
@@ -44,7 +53,7 @@ class ProductProvider with ChangeNotifier {
       quantity: 30,
       image: "path_to_aspirin_image",
       id: const Uuid().v4(),
-      category: "Medicine",
+      category: "basic",
     ),
     ProductsModel(
       title: "Vitamin C",
@@ -64,7 +73,7 @@ class ProductProvider with ChangeNotifier {
       quantity: 15,
       image: "path_to_cough_syrup_image",
       id: const Uuid().v4(),
-      category: "Medicine",
+      category: "Supplements",
     ),
     ProductsModel(
       title: "Band-Aids",
@@ -74,7 +83,7 @@ class ProductProvider with ChangeNotifier {
       quantity: 50,
       image: "path_to_band_aids_image",
       id: const Uuid().v4(),
-      category: "Medical Supplies",
+      category: "Family",
     ),
     ProductsModel(
       title: "Omega-3 Supplement",
@@ -84,17 +93,17 @@ class ProductProvider with ChangeNotifier {
       quantity: 30,
       image: "path_to_omega3_image",
       id: const Uuid().v4(),
-      category: "Supplement",
+      category: "Supplements",
     ),
     ProductsModel(
-      title: "Hand Sanitizer",
+      title: "beauty",
       price: 3.99,
       description:
           "Maintain good hygiene on the go with this antibacterial hand sanitizer. The compact size with 10 uses per bottle makes it perfect for personal care, ensuring clean hands anytime, anywhere.",
       quantity: 10,
       image: "path_to_hand_sanitizer_image",
       id: const Uuid().v4(),
-      category: "Personal Care",
+      category: "beauty",
     ),
     ProductsModel(
       title: "Multivitamin",
@@ -104,7 +113,7 @@ class ProductProvider with ChangeNotifier {
       quantity: 90,
       image: "path_to_multivitamin_image",
       id: const Uuid().v4(),
-      category: "Supplement",
+      category: "LifeStyle",
     ),
     ProductsModel(
       title: "Thermometer",
@@ -114,7 +123,7 @@ class ProductProvider with ChangeNotifier {
       quantity: 5,
       image: "path_to_thermometer_image",
       id: const Uuid().v4(),
-      category: "Medical Supplies",
+      category: "LifeStyle",
     ),
     ProductsModel(
       title: "Pain Relief Gel",
@@ -124,7 +133,7 @@ class ProductProvider with ChangeNotifier {
       quantity: 25,
       image: "path_to_pain_relief_gel_image",
       id: const Uuid().v4(),
-      category: "Medicine",
+      category: "Health",
     ),
   ];
 }

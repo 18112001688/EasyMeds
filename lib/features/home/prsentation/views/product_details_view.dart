@@ -3,10 +3,10 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
-import 'package:medcs/features/home/prsentation/manger/product/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 
 class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({Key? key}) : super(key: key);

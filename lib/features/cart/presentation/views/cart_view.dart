@@ -6,7 +6,7 @@ import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_cart.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_quantity_bottom_sheet.dart';
-import 'package:medcs/features/home/prsentation/manger/product/them_provider/theme_provider.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 

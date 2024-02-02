@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:medcs/core/utlity/app_router.dart';
 import 'package:medcs/core/utlity/themes.dart';
-import 'package:medcs/features/home/prsentation/manger/product/them_provider/theme_provider.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/firebase_options.dart';
 import 'package:provider/provider.dart';
