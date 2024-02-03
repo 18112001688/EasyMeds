@@ -27,6 +27,7 @@ List views = const [
 
 class _BottomNavBarViewState extends State<BottomNavBarView> {
   @override
+  @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     return Scaffold(

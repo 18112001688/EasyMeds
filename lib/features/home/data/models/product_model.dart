@@ -4,7 +4,7 @@ class ProductsModel with ChangeNotifier {
   final String title;
   final double price;
   final String description;
-  final double quantity;
+  final int quantity;
   final String image;
   final String id;
   final String category;

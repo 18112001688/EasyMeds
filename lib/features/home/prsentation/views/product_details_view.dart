@@ -3,6 +3,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class ProductDetailsView extends StatelessWidget {
     final productID = ModalRoute.of(context)!.settings.arguments as String;
     final getCurrentProduct = productProvider.findByProductID(productID);
     final themeProvider = context.watch<ThemeProvider>();
+    final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -117,8 +119,18 @@ class ProductDetailsView extends StatelessWidget {
                         width: 5,
                       ),
                       CustomPrimaryButton(
-                          label: 'Add to cart',
-                          onPressed: () {},
+                          label: cartProvider.isProductInCart(
+                                  productID: getCurrentProduct.id)
+                              ? 'Product Already in cart'
+                              : 'Add to cart',
+                          onPressed: () {
+                            if (cartProvider.isProductInCart(
+                                productID: getCurrentProduct.id)) {
+                              return;
+                            }
+                            cartProvider.addProductToCart(
+                                productID: getCurrentProduct.id);
+                          },
                           color: AppColors.primaryColor,
                           borderRadius: 15,
                           height: 50,

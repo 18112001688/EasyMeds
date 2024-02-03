@@ -7,8 +7,16 @@ import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provi
 import 'package:provider/provider.dart';
 
 class CustomCart extends StatelessWidget {
-  const CustomCart({super.key});
-
+  const CustomCart(
+      {super.key,
+      required this.label,
+      required this.price,
+      required this.quntity,
+      required this.image});
+  final String label;
+  final double price;
+  final int quntity;
+  final String image;
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -59,7 +67,7 @@ class CustomCart extends StatelessWidget {
                     width: 1,
                   )),
               child: Image.asset(
-                AppImages.paecmental,
+                image,
               ),
             ),
             Padding(
@@ -67,7 +75,7 @@ class CustomCart extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Parcmental',
+                    label,
                     style: themeProvider.isDarkMode
                         ? StylesDark.bodyLarge17
                         : StylesLight.bodyLarge17,
@@ -75,15 +83,17 @@ class CustomCart extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  const Text(
-                    "\$15.99",
-                    style:
-                        TextStyle(color: AppColors.secondryLight, fontSize: 16),
+                  Text(
+                    "\$$price",
+                    style: const TextStyle(
+                        color: AppColors.secondryLight, fontSize: 16),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
-                  const CustomQuantity(),
+                  CustomQuantity(
+                    qunatity: quntity,
+                  ),
                 ],
               ),
             ),

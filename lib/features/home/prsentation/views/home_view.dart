@@ -21,7 +21,7 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-ScrollController _scrollController = ScrollController();
+ ScrollController _scrollController = ScrollController();
 
 double _opacity = 1;
 

@@ -3,18 +3,29 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
+import 'package:medcs/features/cart/data/models/cart_model.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_cart.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_quantity_bottom_sheet.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
   final bool isEmpty = false;
+
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final cartModelProvider = Provider.of<CartModel>(context);
+    final productProvider = context.watch<ProductProvider>();
+
+    final getCurrentProduct =
+        productProvider.findByProductID(cartModelProvider.cartID);
+
     return isEmpty
         ? Scaffold(
             body: SizedBox(
@@ -84,15 +95,24 @@ class CartView extends StatelessWidget {
               ],
             ),
             body: ListView.builder(
-              itemCount: 10,
-              itemBuilder: ((context, index) => const Padding(
-                  padding: EdgeInsets.all(12.0), child: CustomCart())),
+              itemCount: cartProvider.getCartItem.length,
+              itemBuilder: ((context, index) => ChangeNotifierProvider.value(
+                    value: cartProvider.getCartItem.values.toList()[index],
+                    child: CustomCart(
+                      label: getCurrentProduct!.title,
+                      price: getCurrentProduct.price,
+                      quntity: cartModelProvider.quantity,
+                      image: getCurrentProduct.image,
+                    ),
+                  )),
             ));
   }
 }
 
 class CustomQuantity extends StatelessWidget {
-  const CustomQuantity({super.key});
+  const CustomQuantity({super.key, required this.qunatity});
+
+  final int qunatity;
 
   @override
   Widget build(BuildContext context) {
@@ -120,12 +140,12 @@ class CustomQuantity extends StatelessWidget {
                 context: context,
                 builder: (context) => const QuantityBottomSheet());
           },
-          child: const Row(
+          child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.keyboard_arrow_down,
               ),
-              Text('Qty')
+              Text(qunatity.toString())
             ],
           ),
         ),
