@@ -97,7 +97,8 @@ class WishListView extends StatelessWidget {
 }
 
 class CustomQuantity extends StatelessWidget {
-  const CustomQuantity({super.key});
+  const CustomQuantity({super.key, required this.qunatity});
+  final int qunatity;
 
   @override
   Widget build(BuildContext context) {
@@ -125,12 +126,12 @@ class CustomQuantity extends StatelessWidget {
                 context: context,
                 builder: (context) => const QuantityBottomSheet());
           },
-          child: const Row(
+          child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.keyboard_arrow_down,
               ),
-              Text('Qty')
+              Text(qunatity.toString())
             ],
           ),
         ),

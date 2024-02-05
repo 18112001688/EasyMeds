@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
 import 'package:medcs/features/cart/presentation/views/cart_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/home/prsentation/views/home_view.dart';
@@ -30,6 +31,8 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
         bottomNavigationBar: SizedBox(
           height: 120,
@@ -78,10 +81,11 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                             color: AppColors.primaryColor,
                           ),
                         )
-                      : const Badge(
+                      : Badge(
                           backgroundColor: AppColors.primaryColor,
-                          label: Text('6'),
-                          child: Icon(IconlyLight.buy,
+                          label:
+                              Text(cartProvider.getCartItem.length.toString()),
+                          child: const Icon(IconlyLight.buy,
                               color: AppColors.secondryLight)),
                   label: "",
                 ),
