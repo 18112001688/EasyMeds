@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_cart.dart';
-import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
-  final bool isEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +52,6 @@ class CartView extends StatelessWidget {
                     const SizedBox(
                       height: 40,
                     ),
-                    CustomPrimaryButton(
-                        label: 'Go Shopping',
-                        onPressed: () {
-                          GoRouter.of(context).push('/BottomNavBarView');
-                        },
-                        color: AppColors.primaryColor,
-                        borderRadius: 10,
-                        height: 50,
-                        width: 140,
-                        borderColor: AppColors.primaryColor,
-                        labelColor: Colors.white,
-                        fontSize: 12),
                   ],
                 ),
               ),
@@ -76,11 +61,6 @@ class CartView extends StatelessWidget {
             bottomSheet: const CustomBottomSheet(),
             appBar: AppBar(
               scrolledUnderElevation: 0,
-              leading: IconButton(
-                  onPressed: () {
-                    GoRouter.of(context).push('/BottomNavBar');
-                  },
-                  icon: const Icon(Icons.arrow_back)),
               title: const Center(child: Text('Cart')),
               actions: const [
                 Padding(
@@ -88,15 +68,17 @@ class CartView extends StatelessWidget {
                   child: Icon(Icons.delete),
                 ),
               ],
+              leading: const Text(''),
             ),
             body: ListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 50),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: cartProvider.getCartItem.length,
               itemBuilder: ((context, index) => ChangeNotifierProvider.value(
                     value: cartProvider.getCartItem.values.toList()[index],
                     child: const Padding(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(8.0),
                       child: CustomCart(),
                     ),
                   )),

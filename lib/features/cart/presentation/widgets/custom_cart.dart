@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/data/models/cart_model.dart';
-import 'package:medcs/features/cart/presentation/views/cart_view.dart';
-import 'package:medcs/features/favourite/presentation/views/wishlist_view.dart';
+import 'package:medcs/features/cart/presentation/widgets/custom_quantity.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +59,7 @@ class CustomCart extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     height: 100,
@@ -98,12 +98,13 @@ class CustomCart extends StatelessWidget {
                         ),
                         CustomQuantity(
                           qunatity: cartModelProvider.quantity,
+                          cartModel: cartModelProvider,
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 50, top: 60),
+                    padding: const EdgeInsets.only(top: 80),
                     child: IconButton(
                         onPressed: () {},
                         icon: const Icon(

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/features/cart/data/models/cart_model.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_quantity_bottom_sheet.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class CustomQuantity extends StatelessWidget {
-  const CustomQuantity({super.key, required this.qunatity});
+  const CustomQuantity(
+      {super.key, required this.qunatity, required this.cartModel});
 
   final int qunatity;
+  final CartModel cartModel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,9 @@ class CustomQuantity extends StatelessWidget {
                         topLeft: Radius.circular(28),
                         topRight: Radius.circular(28))),
                 context: context,
-                builder: (context) => const QuantityBottomSheet());
+                builder: (context) => QuantityBottomSheet(
+                      cartModel: cartModel,
+                    ));
           },
           child: Row(
             children: [
