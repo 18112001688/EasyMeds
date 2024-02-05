@@ -110,8 +110,11 @@ class ProductDetailsView extends StatelessWidget {
                                 ? AppColors.secondryScaffold
                                 : AppColors.secondryPurple,
                             borderRadius: BorderRadius.circular(10)),
-                        child: const Icon(
-                          IconlyLight.buy,
+                        child: Icon(
+                          cartProvider.isProductInCart(
+                                  productID: getCurrentProduct.id)
+                              ? Icons.check
+                              : IconlyLight.buy,
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -121,7 +124,7 @@ class ProductDetailsView extends StatelessWidget {
                       CustomPrimaryButton(
                           label: cartProvider.isProductInCart(
                                   productID: getCurrentProduct.id)
-                              ? 'Product Already in cart'
+                              ? 'Product Added to your cart'
                               : 'Add to cart',
                           onPressed: () {
                             if (cartProvider.isProductInCart(

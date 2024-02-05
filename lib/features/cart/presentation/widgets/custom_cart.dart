@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/data/models/cart_model.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_quantity.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
@@ -17,6 +18,7 @@ class CustomCart extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final cartModelProvider = context.watch<CartModel>();
     final productProvider = context.watch<ProductProvider>();
+    final cartProvider = context.watch<CartProvider>();
 
     final getCurrentProduct =
         productProvider.findByProductID(cartModelProvider.productID);
@@ -103,15 +105,15 @@ class CustomCart extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 80),
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.delete_outline_rounded,
-                          color: Color(0xffADADAD),
-                        )),
-                  )
+                  IconButton(
+                      onPressed: () {
+                        cartProvider.removeOneItem(
+                            productID: cartModelProvider.productID);
+                      },
+                      icon: const Icon(
+                        Icons.delete_outline_rounded,
+                        color: Color(0xffADADAD),
+                      ))
                 ],
               ),
             ),

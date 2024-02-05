@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +13,9 @@ class CustomBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
+
     return Container(
       height: 200,
       decoration: BoxDecoration(
@@ -66,19 +71,19 @@ class CustomBottomSheet extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            const Row(
+            Row(
               children: [
                 Text(
-                  'Total',
-                  style: TextStyle(color: AppColors.secondryLight),
+                  'Total items (${cartProvider.getCartItem.length})',
+                  style: const TextStyle(color: AppColors.secondryLight),
                 ),
               ],
             ),
             Row(
               children: [
-                const Text(
-                  '\$120',
-                  style: TextStyle(color: AppColors.secondryBlack),
+                Text(
+                  '\$${cartProvider.getTotal(productProvider: productProvider)}',
+                  style: const TextStyle(color: AppColors.secondryBlack),
                 ),
                 const Spacer(),
                 CustomPrimaryButton(

@@ -39,7 +39,7 @@ class MyAppMethods {
                       ),
                     ),
                     TextButton(
-                      onPressed: onPressedCancel,
+                      onPressed: onPressedOk,
                       child: const Text('Ok'),
                     )
                   ],
