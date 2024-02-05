@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
+import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/home/prsentation/views/product_details_view.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
@@ -19,6 +20,7 @@ class CustomProductCard extends StatelessWidget {
     final themeProvider = context.watch<ThemeProvider>();
     final productProvider = context.watch<ProductProvider>();
     final getCurrentProduct = productProvider.findByProductID(productId);
+    final wishlistProvider = Provider.of<WishListProvider>(context);
 
     // Define a consistent text style for the title
     final titleTextStyle = TextStyle(
@@ -31,19 +33,11 @@ class CustomProductCard extends StatelessWidget {
 
     return getCurrentProduct == null
         ? const SizedBox.shrink()
-        : SizedBox(
-            height: 200,
-            width: 160,
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    settings: RouteSettings(arguments: getCurrentProduct.id),
-                    builder: ((context) => const ProductDetailsView()),
-                  ),
-                );
-              },
+        : Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: SizedBox(
+              height: 200,
+              width: 160,
               child: Container(
                 decoration: BoxDecoration(
                   color: themeProvider.isDarkMode
@@ -62,7 +56,19 @@ class CustomProductCard extends StatelessWidget {
                   children: [
                     Positioned(
                       top: 40,
-                      child: Image.asset(AppImages.paecmental),
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                settings: RouteSettings(
+                                    arguments: getCurrentProduct.id),
+                                builder: ((context) =>
+                                    const ProductDetailsView()),
+                              ),
+                            );
+                          },
+                          child: Image.asset(AppImages.paecmental)),
                     ),
                     IntrinsicHeight(
                       child: Padding(
@@ -96,11 +102,22 @@ class CustomProductCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Positioned(
-                      left: 130,
-                      top: 160,
-                      child: Icon(IconlyLight.heart,
-                          color: AppColors.secondryLight),
+                    Positioned(
+                      left: 110,
+                      top: 150,
+                      child: IconButton(
+                          onPressed: () {
+                            wishlistProvider.addOrRemoveProductFromWishList(
+                                productID: getCurrentProduct.id);
+                          },
+                          icon: wishlistProvider.isProductInWishList(
+                                  productID: getCurrentProduct.id)
+                              ? const Icon(IconlyBold.heart)
+                              : const Icon(IconlyLight.heart),
+                          color: wishlistProvider.isProductInWishList(
+                                  productID: getCurrentProduct.id)
+                              ? Colors.red
+                              : AppColors.secondryLight),
                     )
                   ],
                 ),

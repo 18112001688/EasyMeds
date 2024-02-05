@@ -72,7 +72,7 @@ class _SearchViewState extends State<SearchView> {
             ],
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 10),
                 child: DynamicHeightGridView(
                   builder: (context, index) => CustomProductCard(
                     productId: _searchController.text.isNotEmpty

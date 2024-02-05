@@ -21,7 +21,7 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
- ScrollController _scrollController = ScrollController();
+ScrollController _scrollController = ScrollController();
 
 double _opacity = 1;
 
@@ -173,20 +173,17 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: DynamicHeightGridView(
-                      builder: (context, index) => ChangeNotifierProvider.value(
-                        value: productProvider.getProducts[index],
-                        child: CustomProductCard(
-                          productId: productProvider.getProducts[index].id,
-                        ),
+                  DynamicHeightGridView(
+                    builder: (context, index) => ChangeNotifierProvider.value(
+                      value: productProvider.getProducts[index],
+                      child: CustomProductCard(
+                        productId: productProvider.getProducts[index].id,
                       ),
-                      itemCount: productProvider.getProducts.length,
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
                     ),
+                    itemCount: productProvider.getProducts.length,
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                   )
                 ],
               ),

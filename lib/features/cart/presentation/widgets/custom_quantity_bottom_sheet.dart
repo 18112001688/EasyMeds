@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/features/cart/data/models/cart_model.dart';
-import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class QuantityBottomSheet extends StatelessWidget {

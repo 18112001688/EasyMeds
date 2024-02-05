@@ -5,7 +5,7 @@ import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
-import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_cart.dart';
 import 'package:provider/provider.dart';

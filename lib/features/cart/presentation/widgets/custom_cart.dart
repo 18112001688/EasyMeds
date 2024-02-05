@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/data/models/cart_model.dart';
-import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_peovider.dart';
+import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_quantity.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';

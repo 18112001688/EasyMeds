@@ -3,17 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
+import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/favourite/data/models/wishlist_model.dart';
+import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
 
 import 'package:medcs/features/home/prsentation/widgets/custom_product_card.dart';
+import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
+import 'package:provider/provider.dart';
 
 class WishListView extends StatelessWidget {
   const WishListView({super.key});
-  final bool isEmpty = false;
+  final bool isEmpty = true;
   @override
   Widget build(BuildContext context) {
-    return isEmpty
+    final wishlistProvider = Provider.of<WishListProvider>(context);
+    final productProvider = Provider.of<WishListProvider>(context);
+
+    return wishlistProvider.getWishListItems.isEmpty
         ? Scaffold(
             body: SizedBox(
               width: double.infinity,
@@ -34,9 +43,9 @@ class WishListView extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.w500),
                   ),
-                  Text(
-                    'Your  is Empty',
-                    style: Theme.of(context).textTheme.displayMedium,
+                  const Text(
+                    'Your Wish List is Empty',
+                    style: StylesLight.bodyLarge17,
                   ),
                   const SizedBox(
                     height: 20,
@@ -51,7 +60,7 @@ class WishListView extends StatelessWidget {
                   CustomPrimaryButton(
                       label: 'Go Shopping',
                       onPressed: () {
-                        GoRouter.of(context).push('/HomeView');
+                        GoRouter.of(context).push('/SearchView');
                       },
                       color: AppColors.primaryColor,
                       borderRadius: 10,
@@ -68,26 +77,49 @@ class WishListView extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                   onPressed: () {
-                    GoRouter.of(context).push('/BottomNavBar');
+                    GoRouter.of(context).push('/SearchView');
                   },
                   icon: const Icon(Icons.arrow_back)),
               title: const Center(
                 child: Text('WishList'),
               ),
-              actions: const [
+              actions: [
                 Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Icon(Icons.delete),
+                  padding: const EdgeInsets.only(right: 10),
+                  child: IconButton(
+                      onPressed: () {
+                        MyAppMethods.showWarningDialouge(
+                            isError: false,
+                            context: context,
+                            label:
+                                'Are you sure of deleting all items in yout WishList',
+                            onPressedOk: () {
+                              wishlistProvider.clearLocalWishList();
+                              GoRouter.of(context).pop();
+                            },
+                            onPressedCancel: () {
+                              GoRouter.of(context).pop();
+                            });
+                      },
+                      icon: const Icon(Icons.delete)),
                 ),
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 10),
               child: DynamicHeightGridView(
-                builder: (context, index) => const CustomProductCard(
-                  productId: '',
+                builder: (context, index) => ChangeNotifierProvider.value(
+                  value: wishlistProvider.getWishListItems.values
+                      .toList()
+                      .reversed
+                      .toList()[index],
+                  child: CustomProductCard(
+                    productId: wishlistProvider.getWishListItems.values
+                        .toList()[index]
+                        .productID,
+                  ),
                 ),
-                itemCount: 20,
+                itemCount: wishlistProvider.getWishListItems.length,
                 crossAxisCount: 2,
               ),
             ));
