@@ -6,11 +6,9 @@ import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
-import 'package:medcs/features/favourite/data/models/wishlist_model.dart';
 import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
 
 import 'package:medcs/features/home/prsentation/widgets/custom_product_card.dart';
-import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +18,6 @@ class WishListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wishlistProvider = Provider.of<WishListProvider>(context);
-    final productProvider = Provider.of<WishListProvider>(context);
 
     return wishlistProvider.getWishListItems.isEmpty
         ? Scaffold(

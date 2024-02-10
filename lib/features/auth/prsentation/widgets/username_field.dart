@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomUsernameFormField extends StatelessWidget {
-  const CustomUsernameFormField({super.key});
+  const CustomUsernameFormField({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class CustomUsernameFormField extends StatelessWidget {
         ),
       ),
       child: TextFormField(
+        controller: controller,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Please Enter a Valid Username";

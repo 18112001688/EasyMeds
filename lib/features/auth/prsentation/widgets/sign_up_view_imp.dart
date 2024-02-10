@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ class SignUpViewImp extends StatefulWidget {
 
 bool _isAgreed = false;
 bool _isLoding = false;
-
+TextEditingController nameController = TextEditingController();
 TextEditingController emailController = TextEditingController();
 TextEditingController passController = TextEditingController();
 final _form = GlobalKey<FormState>();
@@ -68,7 +69,9 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
                 const SizedBox(
                   height: 50,
                 ),
-                const CustomUsernameFormField(),
+                CustomUsernameFormField(
+                  controller: nameController,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -223,6 +226,18 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((userCredential) =>
                 userCredential.user!.sendEmailVerification());
+
+        final User? user = FirebaseAuth.instance.currentUser;
+        final uid = user!.uid;
+        await FirebaseFirestore.instance.collection("users").doc(uid).set({
+          "userID": uid,
+          "userName": nameController.text.toLowerCase(),
+          "userEmail": emailController.text.toLowerCase(),
+          "userImage": "",
+          "createdAt": Timestamp.now(),
+          "userWish": [],
+          "userCart": []
+        });
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
