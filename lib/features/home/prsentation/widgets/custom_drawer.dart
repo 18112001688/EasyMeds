@@ -24,8 +24,8 @@ class CustomHomeDrawer extends StatelessWidget {
           DrawerHeader(
               decoration: const BoxDecoration(),
               child: CustomProfileData(
-                image: user!.photoURL!,
-                name: user.displayName!,
+                image: user!.photoURL ?? "",
+                name: user.displayName ?? "",
               )),
           SwitchListTile(
             value: themeProvider.isDarkMode,
