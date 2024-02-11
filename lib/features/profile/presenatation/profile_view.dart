@@ -57,23 +57,61 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return Scaffold(
       body: SafeArea(
         child: ModalProgressHUD(
           inAsyncCall: _isLoading,
           child: Column(
             children: [
-              const CustomAppBar(text: 'Profile'),
               const SizedBox(
-                height: 5,
+                height: 60,
               ),
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: userModel?.userImage != null
-                    ? NetworkImage(userModel!.userImage)
-                    : const NetworkImage(
-                        "https://as2.ftcdn.net/v2/jpg/00/65/77/27/1000_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg"),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 70,
+                      width: 70,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                          border: Border.all(
+                              color: AppColors.primaryColor, width: 3)),
+                      child: CircleAvatar(
+                        backgroundImage: userModel?.userImage != null
+                            ? NetworkImage(userModel!.userImage)
+                            : const NetworkImage(
+                                "https://as2.ftcdn.net/v2/jpg/00/65/77/27/1000_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg"),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userModel?.userName ?? "",
+                          style: TextStyle(
+                            color: themeProvider.isDarkMode
+                                ? Colors.white
+                                : Colors.black,
+                            fontSize: 24,
+                          ),
+                        ),
+                        Text(
+                          userModel?.userEmail ?? "",
+                          style: StylesDark.bodyExtraSmall11,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
+              const Spacer(),
               CustomProfileOptions(
                 image: AppImages.helpDisk,
                 onTap: () {},
@@ -105,32 +143,38 @@ class _ProfileViewState extends State<ProfileView> {
                 text: 'Privacy and Policy',
               ),
               user == null
-                  ? CustomProfileOptions(
-                      image: AppImages.logout,
-                      onTap: () async {
-                        GoRouter.of(context).push('/LoginView');
-                      },
-                      text: 'Login',
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: CustomProfileOptions(
+                        image: AppImages.logout,
+                        onTap: () async {
+                          GoRouter.of(context).push('/LoginView');
+                        },
+                        text: 'Login',
+                      ),
                     )
-                  : CustomProfileOptions(
-                      image: AppImages.logout,
-                      onTap: () async {
-                        MyAppMethods.showWarningDialouge(
-                            isError: false,
-                            context: context,
-                            label: 'Are you sure you want to logout',
-                            onPressedOk: () async {
-                              await FirebaseAuth.instance.signOut();
-                              if (context.mounted) {
-                                GoRouter.of(context)
-                                    .push('/GetStartedRegisterView');
-                              }
-                            },
-                            onPressedCancel: () {
-                              GoRouter.of(context).pop();
-                            });
-                      },
-                      text: 'Logout',
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: CustomProfileOptions(
+                        image: AppImages.logout,
+                        onTap: () async {
+                          MyAppMethods.showWarningDialouge(
+                              isError: false,
+                              context: context,
+                              label: 'Are you sure you want to logout',
+                              onPressedOk: () async {
+                                await FirebaseAuth.instance.signOut();
+                                if (context.mounted) {
+                                  GoRouter.of(context)
+                                      .push('/GetStartedRegisterView');
+                                }
+                              },
+                              onPressedCancel: () {
+                                GoRouter.of(context).pop();
+                              });
+                        },
+                        text: 'Logout',
+                      ),
                     )
             ],
           ),
@@ -147,20 +191,16 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
 
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Row(
-        children: [
-          const Icon(Icons.arrow_back),
-          const SizedBox(width: 105),
-          Text(
-            text,
-            style: themeProvider.isDarkMode
-                ? StylesDark.bodyLarge17SemiBold
-                : StylesLight.bodyLarge17,
-          )
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          text,
+          style: themeProvider.isDarkMode
+              ? StylesDark.bodyLarge17SemiBold
+              : StylesLight.bodyLarge17,
+        )
+      ],
     );
   }
 }

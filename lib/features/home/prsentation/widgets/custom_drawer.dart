@@ -7,9 +7,7 @@ import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
-import 'package:medcs/features/auth/prsentation/views/login_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
-import 'package:medcs/features/splash/prsentation/views/get_started_register_view.dart';
 import 'package:provider/provider.dart';
 
 class CustomHomeDrawer extends StatelessWidget {
