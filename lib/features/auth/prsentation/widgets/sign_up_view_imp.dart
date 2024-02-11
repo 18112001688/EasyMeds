@@ -21,14 +21,21 @@ class SignUpViewImp extends StatefulWidget {
   State<SignUpViewImp> createState() => _SignUpViewImpState();
 }
 
-bool _isAgreed = false;
-bool _isLoding = false;
-TextEditingController nameController = TextEditingController();
-TextEditingController emailController = TextEditingController();
-TextEditingController passController = TextEditingController();
-final _form = GlobalKey<FormState>();
-
 class _SignUpViewImpState extends State<SignUpViewImp> {
+  bool _isAgreed = false;
+  bool _isLoding = false;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final _form = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -70,19 +77,19 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
                   height: 50,
                 ),
                 CustomUsernameFormField(
-                  controller: nameController,
+                  controller: _nameController,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 CustomEmailFormField(
-                  controller: emailController,
+                  controller: _emailController,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 CustomPasswordFormField(
-                  controller: passController,
+                  controller: _passController,
                 ),
                 const SizedBox(
                   height: 20,
@@ -218,8 +225,8 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
       });
 
       try {
-        final String email = emailController.text.trim();
-        final String password = passController.text.trim();
+        final String email = _emailController.text.trim();
+        final String password = _passController.text.trim();
 
         // Create the user and send verification email immediately
         await FirebaseAuth.instance
@@ -231,8 +238,8 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
         final uid = user!.uid;
         await FirebaseFirestore.instance.collection("users").doc(uid).set({
           "userID": uid,
-          "userName": nameController.text.toLowerCase(),
-          "userEmail": emailController.text.toLowerCase(),
+          "userName": _nameController.text.toLowerCase(),
+          "userEmail": _emailController.text.toLowerCase(),
           "userImage": "",
           "createdAt": Timestamp.now(),
           "userWish": [],

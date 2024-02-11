@@ -5,73 +5,135 @@ import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
+import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/auth/data/model/user_model.dart';
+import 'package:medcs/features/auth/prsentation/manger/user_provider.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  final user = FirebaseAuth.instance.currentUser;
+  bool _isLoading = true;
+  UserModel? userModel;
+
+  Future<void> fetchUserInfo() async {
+    if (user == null) {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      userModel = await userProvider.fetchUserInfo();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(
+          message: 'An error has occured $e',
+          color: Colors.red,
+        ));
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    fetchUserInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const CustomAppBar(text: 'Profile'),
-            const SizedBox(
-              height: 5,
-            ),
-            const CircleAvatar(
-              radius: 40,
-            ),
-            CustomProfileOptions(
-              image: AppImages.helpDisk,
-              onTap: () {},
-              text: 'Help Center',
-            ),
-            CustomProfileOptions(
-              image: AppImages.document,
-              onTap: () {},
-              text: 'WishList',
-            ),
-            CustomProfileOptions(
-              image: AppImages.language,
-              onTap: () {},
-              text: 'Change Language',
-            ),
-            CustomProfileOptions(
-              image: AppImages.contactUs2,
-              onTap: () {},
-              text: 'contact us',
-            ),
-            CustomProfileOptions(
-              image: AppImages.inviteFriends,
-              onTap: () {},
-              text: 'Invite Friends',
-            ),
-            CustomProfileOptions(
-              image: AppImages.chats,
-              onTap: () {},
-              text: 'Privacy and Policy',
-            ),
-            CustomProfileOptions(
-              image: AppImages.logout,
-              onTap: () async {
-                await MyAppMethods.showWarningDialouge(
-                    isError: false,
-                    context: context,
-                    label: 'Are you sure you want to logout',
-                    onPressedOk: () async {
-                      await FirebaseAuth.instance.signOut();
-                    },
-                    onPressedCancel: () {
-                      GoRouter.of(context).pop();
-                    });
-              },
-              text: 'Logout',
-            )
-          ],
+        child: ModalProgressHUD(
+          inAsyncCall: _isLoading,
+          child: Column(
+            children: [
+              const CustomAppBar(text: 'Profile'),
+              const SizedBox(
+                height: 5,
+              ),
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: userModel?.userImage != null
+                    ? NetworkImage(userModel!.userImage)
+                    : const NetworkImage(
+                        "https://as2.ftcdn.net/v2/jpg/00/65/77/27/1000_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg"),
+              ),
+              CustomProfileOptions(
+                image: AppImages.helpDisk,
+                onTap: () {},
+                text: 'Help Center',
+              ),
+              CustomProfileOptions(
+                image: AppImages.document,
+                onTap: () {},
+                text: 'WishList',
+              ),
+              CustomProfileOptions(
+                image: AppImages.language,
+                onTap: () {},
+                text: 'Change Language',
+              ),
+              CustomProfileOptions(
+                image: AppImages.contactUs2,
+                onTap: () {},
+                text: 'contact us',
+              ),
+              CustomProfileOptions(
+                image: AppImages.inviteFriends,
+                onTap: () {},
+                text: 'Invite Friends',
+              ),
+              CustomProfileOptions(
+                image: AppImages.chats,
+                onTap: () {},
+                text: 'Privacy and Policy',
+              ),
+              user == null
+                  ? CustomProfileOptions(
+                      image: AppImages.logout,
+                      onTap: () async {
+                        GoRouter.of(context).push('/LoginView');
+                      },
+                      text: 'Login',
+                    )
+                  : CustomProfileOptions(
+                      image: AppImages.logout,
+                      onTap: () async {
+                        MyAppMethods.showWarningDialouge(
+                            isError: false,
+                            context: context,
+                            label: 'Are you sure you want to logout',
+                            onPressedOk: () async {
+                              await FirebaseAuth.instance.signOut();
+                              if (context.mounted) {
+                                GoRouter.of(context)
+                                    .push('/GetStartedRegisterView');
+                              }
+                            },
+                            onPressedCancel: () {
+                              GoRouter.of(context).pop();
+                            });
+                      },
+                      text: 'Logout',
+                    )
+            ],
+          ),
         ),
       ),
     );

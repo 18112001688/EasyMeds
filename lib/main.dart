@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:medcs/core/utlity/app_router.dart';
 import 'package:medcs/core/utlity/themes.dart';
+import 'package:medcs/features/auth/prsentation/manger/user_provider.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
@@ -19,14 +20,17 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) =>
-            ProductProvider(), // Instantiate ThemeProvider with create
+            ProductProvider(), // Instantiate ProductProvider with create
       ),
       ChangeNotifierProvider(
-        create: (_) => CartProvider(), // Instantiate ThemeProvider with create
+        create: (_) => CartProvider(), // Instantiate CartProvider with create
       ),
       ChangeNotifierProvider(
         create: (_) =>
-            WishListProvider(), // Instantiate ThemeProvider with create
+            WishListProvider(), // Instantiate WishListProvider with create
+      ),
+      ChangeNotifierProvider(
+        create: (_) => UserProvider(), // Instantiate UserProvider with create
       ),
     ],
     child: const MyApp(),

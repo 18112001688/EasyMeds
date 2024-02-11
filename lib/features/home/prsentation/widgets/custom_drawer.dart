@@ -4,9 +4,12 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/auth/prsentation/views/login_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:medcs/features/splash/prsentation/views/get_started_register_view.dart';
 import 'package:provider/provider.dart';
 
 class CustomHomeDrawer extends StatelessWidget {
@@ -23,10 +26,12 @@ class CustomHomeDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
               decoration: const BoxDecoration(),
-              child: CustomProfileData(
-                image: user!.photoURL ?? "",
-                name: user.displayName ?? "",
-              )),
+              child: user == null
+                  ? const SizedBox.shrink()
+                  : CustomProfileData(
+                      image: user.photoURL ?? "",
+                      name: user.displayName ?? "",
+                    )),
           SwitchListTile(
             value: themeProvider.isDarkMode,
             onChanged: (value) {
@@ -54,10 +59,12 @@ class CustomHomeDrawer extends StatelessWidget {
               ],
             ),
           ),
-          const CustomListTile(
-            image: AppImages.accountInfo,
-            title: 'Account Information',
-          ),
+          user == null
+              ? const SizedBox.shrink()
+              : const CustomListTile(
+                  image: AppImages.accountInfo,
+                  title: 'Account Information',
+                ),
           const CustomListTile(
             image: AppImages.category,
             title: 'Category',
@@ -109,19 +116,39 @@ class CustomHomeDrawer extends StatelessWidget {
                   : StylesLight.bodyLarge17,
             ),
           ),
-          ListTile(
-            title: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.red, fontFamily: 'inter'),
-            ),
-            leading: SvgPicture.asset(
-              AppImages.logout,
-              colorFilter: const ColorFilter.mode(
-                Color(0xffFF5757),
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
+          user == null
+              ? const SizedBox.shrink()
+              : ListTile(
+                  title: GestureDetector(
+                    onTap: () {
+                      MyAppMethods.showWarningDialouge(
+                          isError: false,
+                          context: context,
+                          label: 'Are you sure you want to logout',
+                          onPressedOk: () async {
+                            await FirebaseAuth.instance.signOut();
+                            if (context.mounted) {
+                              GoRouter.of(context)
+                                  .push('/GetStartedRegisterView');
+                            }
+                          },
+                          onPressedCancel: () {
+                            GoRouter.of(context).pop();
+                          });
+                    },
+                    child: const Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.red, fontFamily: 'inter'),
+                    ),
+                  ),
+                  leading: SvgPicture.asset(
+                    AppImages.logout,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xffFF5757),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
         ],
       ),
     );

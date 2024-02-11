@@ -21,11 +21,12 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-ScrollController _scrollController = ScrollController();
-
 double _opacity = 1;
 
 class _HomeViewState extends State<HomeView> {
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _secondryScrollController = ScrollController();
+
   @override
   // The initState method is called exactly once and then never again.
 // It must be defined as part of the State class in a StatefulWidget.
@@ -68,7 +69,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(() {}); // Remove the scroll listener
+    _scrollController.removeListener(() {});
+    _secondryScrollController
+        .removeListener(() {}); // Remove the scroll listener
     // Cancel any timers (replace _timer with your timer variable)
     super.dispose();
   }
@@ -174,6 +177,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   DynamicHeightGridView(
+                    controller: _secondryScrollController,
                     builder: (context, index) => ChangeNotifierProvider.value(
                       value: productProvider.getProducts[index],
                       child: CustomProductCard(

@@ -16,16 +16,23 @@ class LoginViewImp extends StatefulWidget {
   const LoginViewImp({super.key});
 
   @override
-  State<LoginViewImp> createState() => _SignUpViewImpState();
+  State<LoginViewImp> createState() => _LoginViewImpState();
 }
 
 bool _isLoding = false;
-final _form = GlobalKey<FormState>();
 
-TextEditingController _emailController = TextEditingController();
-TextEditingController _passController = TextEditingController();
+class _LoginViewImpState extends State<LoginViewImp> {
+  final _form = GlobalKey<FormState>();
 
-class _SignUpViewImpState extends State<LoginViewImp> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(

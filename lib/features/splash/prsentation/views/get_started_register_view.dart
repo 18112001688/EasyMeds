@@ -49,6 +49,22 @@ class GetStartedRegisterView extends StatelessWidget {
             ),
             CustomPrimaryButton(
               fontSize: 16,
+              label: 'Guest',
+              onPressed: () {
+                GoRouter.of(context).push('/BottomNavBarView');
+              },
+              color: AppColors.primaryColor,
+              borderRadius: 32,
+              height: MediaQuery.of(context).size.height * 0.072,
+              width: MediaQuery.of(context).size.width * 0.73,
+              borderColor: AppColors.primaryColor,
+              labelColor: Colors.white,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomPrimaryButton(
+              fontSize: 16,
               label: 'Login',
               onPressed: () {
                 GoRouter.of(context).push('/LoginView');
@@ -73,7 +89,7 @@ class GetStartedRegisterView extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.73,
               borderColor: AppColors.primaryColor,
               labelColor: AppColors.primaryColor,
-            )
+            ),
           ],
         ),
       ),
