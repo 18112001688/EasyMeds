@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
@@ -10,6 +9,7 @@ import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/auth/data/model/user_model.dart';
 import 'package:medcs/features/auth/prsentation/manger/user_provider.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:medcs/features/home/prsentation/widgets/cutom_profile_option.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,10 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _ProfileViewState extends State<ProfileView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final user = FirebaseAuth.instance.currentUser;
   bool _isLoading = true;
   UserModel? userModel;
@@ -57,6 +60,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final themeProvider = context.watch<ThemeProvider>();
 
     return Scaffold(
@@ -179,92 +183,6 @@ class _ProfileViewState extends State<ProfileView> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key, required this.text});
-  final String text;
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          text,
-          style: themeProvider.isDarkMode
-              ? StylesDark.bodyLarge17SemiBold
-              : StylesLight.bodyLarge17,
-        )
-      ],
-    );
-  }
-}
-
-class CustomContainerCircle extends StatelessWidget {
-  const CustomContainerCircle({super.key, required this.image});
-
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
-
-    return Container(
-      height: 45,
-      width: 45,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: themeProvider.isDarkMode
-            ? AppColors.secondryScaffold
-            : AppColors.secondryPurple,
-      ),
-      child: SvgPicture.asset(image),
-    );
-  }
-}
-
-class CustomProfileOptions extends StatelessWidget {
-  const CustomProfileOptions(
-      {super.key,
-      required this.text,
-      required this.image,
-      required this.onTap});
-
-  final String text;
-  final String image;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20),
-      child: Row(
-        children: [
-          CustomContainerCircle(
-            image: image,
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Text(text,
-              style: themeProvider.isDarkMode
-                  ? StylesDark.bodyLarge17
-                  : StylesLight.bodyLarge17),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: GestureDetector(
-                onTap: onTap, child: const Icon(Icons.arrow_forward_ios)),
-          )
-        ],
       ),
     );
   }
