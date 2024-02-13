@@ -7,7 +7,6 @@ import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provi
 import 'package:medcs/features/home/prsentation/views/product_details_view.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:provider/provider.dart';
-// ... other imports
 
 class CustomProductCard extends StatelessWidget {
   const CustomProductCard({
@@ -68,8 +67,9 @@ class CustomProductCard extends StatelessWidget {
                               ),
                             );
                           },
-                          child: SvgPicture.network(
-                              getCurrentProduct.productImage)),
+                          child: Image.network(
+                            getCurrentProduct.productImage,
+                          )),
                     ),
                     IntrinsicHeight(
                       child: Padding(

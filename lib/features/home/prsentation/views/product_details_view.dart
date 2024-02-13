@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/constent/colors.dart';
-import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
@@ -50,7 +50,10 @@ class ProductDetailsView extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 200,
-                  child: Image.asset(AppImages.largeParcemtal),
+                  child: Image.network(
+                    getCurrentProduct.productImage,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
