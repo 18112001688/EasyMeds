@@ -74,7 +74,7 @@ class CustomCart extends StatelessWidget {
                           width: 1,
                         )),
                     child: Image.asset(
-                      getCurrentProduct.image,
+                      getCurrentProduct.productImage,
                     ),
                   ),
                   Padding(
@@ -82,7 +82,7 @@ class CustomCart extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          getCurrentProduct.title,
+                          getCurrentProduct.productTitle,
                           style: themeProvider.isDarkMode
                               ? StylesDark.bodyLarge17
                               : StylesLight.bodyLarge17,
@@ -91,7 +91,7 @@ class CustomCart extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          "\$${getCurrentProduct.price}",
+                          "\$${getCurrentProduct.productPrice}",
                           style: const TextStyle(
                               color: AppColors.secondryLight, fontSize: 16),
                         ),

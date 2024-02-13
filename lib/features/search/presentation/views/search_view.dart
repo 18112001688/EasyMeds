@@ -76,8 +76,8 @@ class _SearchViewState extends State<SearchView> {
                 child: DynamicHeightGridView(
                   builder: (context, index) => CustomProductCard(
                     productId: _searchController.text.isNotEmpty
-                        ? productSearchList[index].id
-                        : productList[index].id,
+                        ? productSearchList[index].productID
+                        : productList[index].productID,
                   ),
                   itemCount: _searchController.text.isNotEmpty
                       ? productSearchList.length

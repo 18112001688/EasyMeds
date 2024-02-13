@@ -181,7 +181,7 @@ class _HomeViewState extends State<HomeView> {
                     builder: (context, index) => ChangeNotifierProvider.value(
                       value: productProvider.getProducts[index],
                       child: CustomProductCard(
-                        productId: productProvider.getProducts[index].id,
+                        productId: productProvider.getProducts[index].productID,
                       ),
                     ),
                     itemCount: productProvider.getProducts.length,

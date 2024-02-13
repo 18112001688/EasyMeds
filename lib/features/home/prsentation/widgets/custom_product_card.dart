@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/constent/colors.dart';
-import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/home/prsentation/views/product_details_view.dart';
@@ -62,13 +62,14 @@ class CustomProductCard extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 settings: RouteSettings(
-                                    arguments: getCurrentProduct.id),
+                                    arguments: getCurrentProduct.productID),
                                 builder: ((context) =>
                                     const ProductDetailsView()),
                               ),
                             );
                           },
-                          child: Image.asset(AppImages.paecmental)),
+                          child: SvgPicture.network(
+                              getCurrentProduct.productImage)),
                     ),
                     IntrinsicHeight(
                       child: Padding(
@@ -78,11 +79,11 @@ class CustomProductCard extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(getCurrentProduct.title,
+                                Text(getCurrentProduct.productTitle,
                                     style: titleTextStyle),
-                                const Text(
-                                  "20 Pcs",
-                                  style: TextStyle(
+                                Text(
+                                  getCurrentProduct.productQuantity,
+                                  style: const TextStyle(
                                       color: AppColors.secondryLight,
                                       fontSize: 11,
                                       fontFamily: 'inter',
@@ -90,7 +91,7 @@ class CustomProductCard extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 3),
                                 Text(
-                                  "${getCurrentProduct.price.toString()}\$",
+                                  "${getCurrentProduct.productPrice.toString()}\$",
                                   style: const TextStyle(
                                       fontSize: 14,
                                       fontFamily: 'inter',
@@ -108,14 +109,14 @@ class CustomProductCard extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             wishlistProvider.addOrRemoveProductFromWishList(
-                                productID: getCurrentProduct.id);
+                                productID: getCurrentProduct.productID);
                           },
                           icon: wishlistProvider.isProductInWishList(
-                                  productID: getCurrentProduct.id)
+                                  productID: getCurrentProduct.productID)
                               ? const Icon(IconlyBold.heart)
                               : const Icon(IconlyLight.heart),
                           color: wishlistProvider.isProductInWishList(
-                                  productID: getCurrentProduct.id)
+                                  productID: getCurrentProduct.productID)
                               ? Colors.red
                               : AppColors.secondryLight),
                     )

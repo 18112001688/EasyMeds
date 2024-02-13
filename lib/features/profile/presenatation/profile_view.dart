@@ -54,7 +54,9 @@ class _ProfileViewState extends State<ProfileView>
 
   @override
   void initState() {
-    fetchUserInfo();
+    if (userModel == null) {
+      fetchUserInfo();
+    }
     super.initState();
   }
 

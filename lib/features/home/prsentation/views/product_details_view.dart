@@ -72,13 +72,13 @@ class ProductDetailsView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            getCurrentProduct.title,
+                            getCurrentProduct.productTitle,
                             style: themeProvider.isDarkMode
                                 ? StylesDark.titleRegualar22White
                                 : StylesLight.titleRegualar22,
                           ),
                           Text(
-                            "${getCurrentProduct.price.toString()}\$", // Replace with the actual price
+                            "${getCurrentProduct.productPrice.toString()}\$", // Replace with the actual price
                             style: themeProvider.isDarkMode
                                 ? StylesDark.titleRegualar22White
                                 : StylesLight.titleRegualar22,
@@ -91,7 +91,7 @@ class ProductDetailsView extends StatelessWidget {
                         style: StylesDark.bodySmall13,
                       ),
                       Text(
-                        getCurrentProduct.description,
+                        getCurrentProduct.productDescription,
                         style: const TextStyle(fontSize: 16),
                       ),
                     ],
@@ -112,7 +112,7 @@ class ProductDetailsView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10)),
                         child: Icon(
                           cartProvider.isProductInCart(
-                                  productID: getCurrentProduct.id)
+                                  productID: getCurrentProduct.productID)
                               ? Icons.check
                               : IconlyLight.buy,
                           color: AppColors.primaryColor,
@@ -123,16 +123,16 @@ class ProductDetailsView extends StatelessWidget {
                       ),
                       CustomPrimaryButton(
                           label: cartProvider.isProductInCart(
-                                  productID: getCurrentProduct.id)
+                                  productID: getCurrentProduct.productID)
                               ? 'Product Added to your cart'
                               : 'Add to cart',
                           onPressed: () {
                             if (cartProvider.isProductInCart(
-                                productID: getCurrentProduct.id)) {
+                                productID: getCurrentProduct.productID)) {
                               return;
                             }
                             cartProvider.addProductToCart(
-                                productID: getCurrentProduct.id);
+                                productID: getCurrentProduct.productID);
                           },
                           color: AppColors.primaryColor,
                           borderRadius: 15,

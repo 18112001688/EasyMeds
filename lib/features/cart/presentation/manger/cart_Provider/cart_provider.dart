@@ -55,7 +55,7 @@ class CartProvider with ChangeNotifier {
         if (getCurrentProduct == null) {
           return;
         } else {
-          total += getCurrentProduct.price.toDouble() * value.quantity;
+          total += getCurrentProduct.productPrice.toDouble() * value.quantity;
         }
       },
     );

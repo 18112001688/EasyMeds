@@ -7,6 +7,7 @@ import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provi
 import 'package:medcs/features/home/prsentation/views/home_view.dart';
 import 'package:medcs/features/home/prsentation/widgets/custom_drawer.dart';
 import 'package:medcs/features/profile/presenatation/profile_view.dart';
+import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/search/presentation/views/search_view.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class BottomNavBarView extends StatefulWidget {
 }
 
 int currentIndex = 0;
+bool isLoadingProds = true;
 
 List views = const [
   HomeView(),
@@ -27,7 +29,32 @@ List views = const [
 ];
 
 class _BottomNavBarViewState extends State<BottomNavBarView> {
+  Future<void> fetchFCT() async {
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    try {
+      Future.wait(
+        {
+          productProvider.fetchProducts(),
+        },
+      );
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      setState(() {
+        isLoadingProds = false;
+      });
+    }
+  }
+
   @override
+  void didChangeDependencies() {
+    if (isLoadingProds) {
+      fetchFCT();
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
