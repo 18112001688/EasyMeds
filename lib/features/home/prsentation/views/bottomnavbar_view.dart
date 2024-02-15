@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/views/cart_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
@@ -39,7 +40,8 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         },
       );
     } catch (e) {
-      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(
+          message: 'an error has occured $e', color: Colors.red));
     } finally {
       setState(() {
         isLoadingProds = false;
@@ -62,7 +64,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
 
     return Scaffold(
         bottomNavigationBar: SizedBox(
-          height: 120,
+          height: 80,
           child: BottomNavigationBar(
               backgroundColor: themeProvider.isDarkMode
                   ? AppColors.scaffoldDarkMode

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';

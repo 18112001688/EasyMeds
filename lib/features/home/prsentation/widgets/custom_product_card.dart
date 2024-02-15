@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';

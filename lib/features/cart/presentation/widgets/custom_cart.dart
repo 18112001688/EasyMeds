@@ -73,7 +73,7 @@ class CustomCart extends StatelessWidget {
                           color: const Color(0xffE8F3F1),
                           width: 1,
                         )),
-                    child: Image.asset(
+                    child: Image.network(
                       getCurrentProduct.productImage,
                     ),
                   ),
