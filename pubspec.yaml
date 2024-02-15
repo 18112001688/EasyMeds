@@ -43,6 +43,7 @@ dependencies:
   flutter_iconly: ^1.0.2
   uuid: ^4.3.3
   http: ^1.2.0
+  flutter_spinkit: ^5.2.0
   
 
 

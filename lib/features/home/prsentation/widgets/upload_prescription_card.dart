@@ -3,32 +3,42 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
+import 'package:provider/provider.dart';
 
 class CustomUploadPrescriptionCard extends StatelessWidget {
   const CustomUploadPrescriptionCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       height: 135,
       width: 340,
-      decoration: const BoxDecoration(
-          color: Color(0xffEEE9FF),
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(
+          color: themeProvider.isDarkMode
+              ? AppColors.secondryScaffold
+              : const Color(0xffEEE9FF),
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Stack(
         children: [
-          const Positioned(
+          Positioned(
             left: 20,
             top: 20,
-            child: Text('Order Quickly With', style: StylesLight.bodyLarge17),
+            child: Text('Order Quickly With',
+                style: themeProvider.isDarkMode
+                    ? StylesDark.titleRegualar22White
+                    : StylesLight.titleRegualar22),
           ),
-          const Positioned(
+          Positioned(
             left: 20,
-            top: 40,
+            top: 45,
             child: Text(
               'Prescription',
-              style: StylesLight.bodyLarge17,
+              style: themeProvider.isDarkMode
+                  ? StylesDark.titleRegualar22White
+                  : StylesLight.titleRegualar22,
             ),
           ),
           Positioned(

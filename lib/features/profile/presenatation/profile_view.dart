@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/custom_loading.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/sanck_bar.dart';
@@ -68,11 +69,12 @@ class _ProfileViewState extends State<ProfileView>
     return Scaffold(
       body: SafeArea(
         child: ModalProgressHUD(
+          progressIndicator: const CustomLoadingIndicator(),
           inAsyncCall: _isLoading,
           child: Column(
             children: [
               const SizedBox(
-                height: 60,
+                height: 80,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),

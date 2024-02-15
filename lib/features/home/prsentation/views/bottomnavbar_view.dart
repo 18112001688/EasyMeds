@@ -67,7 +67,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
           height: 80,
           child: BottomNavigationBar(
               backgroundColor: themeProvider.isDarkMode
-                  ? AppColors.scaffoldDarkMode
+                  ? AppColors.secondryScaffold
                   : AppColors.scaffoldLightMode,
               onTap: (index) {
                 setState(() {

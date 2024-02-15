@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medcs/core/utlity/custom_loading.dart';
 import 'package:medcs/features/home/data/models/product_model.dart';
 import 'package:medcs/features/home/prsentation/widgets/custom_product_card.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
@@ -70,21 +71,34 @@ class _SearchViewState extends State<SearchView> {
                 style: TextStyle(fontSize: 40, color: Colors.black),
               ))
             ],
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: DynamicHeightGridView(
-                  builder: (context, index) => CustomProductCard(
-                    productId: _searchController.text.isNotEmpty
-                        ? productSearchList[index].productID
-                        : productList[index].productID,
-                  ),
-                  itemCount: _searchController.text.isNotEmpty
-                      ? productSearchList.length
-                      : productList.length,
-                  crossAxisCount: 2,
-                ),
-              ),
+            StreamBuilder<List<ProductsModel>>(
+              stream: productProvider.fetchProductStream(),
+              builder: (context, snapShot) {
+                if (snapShot.connectionState == ConnectionState.waiting) {
+                  return const CustomLoadingIndicator();
+                } else if (snapShot.hasError) {
+                  return Center(
+                      child: Text(
+                          'An error occurred! ${snapShot.error.toString()}'));
+                } else {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: DynamicHeightGridView(
+                        builder: (context, index) => CustomProductCard(
+                          productId: _searchController.text.isNotEmpty
+                              ? productSearchList[index].productID
+                              : productList[index].productID,
+                        ),
+                        itemCount: _searchController.text.isNotEmpty
+                            ? productSearchList.length
+                            : productList.length,
+                        crossAxisCount: 2,
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ],
         ),

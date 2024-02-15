@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/custom_loading.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/features/auth/prsentation/manger/auth.dart';
@@ -36,6 +37,7 @@ class _LoginViewImpState extends State<LoginViewImp> {
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
+      progressIndicator: const CustomLoadingIndicator(),
       inAsyncCall: _isLoding,
       child: Form(
         key: _form,
