@@ -9,7 +9,6 @@ import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
 
 import 'package:medcs/features/home/prsentation/widgets/custom_product_card.dart';
-import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 class WishListView extends StatelessWidget {
@@ -54,29 +53,12 @@ class WishListView extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  CustomPrimaryButton(
-                      label: 'Go Shopping',
-                      onPressed: () {
-                        GoRouter.of(context).push('/SearchView');
-                      },
-                      color: AppColors.primaryColor,
-                      borderRadius: 10,
-                      height: 50,
-                      width: 140,
-                      borderColor: AppColors.primaryColor,
-                      labelColor: Colors.white,
-                      fontSize: 12),
                 ],
               ),
             ),
           )
         : Scaffold(
             appBar: AppBar(
-              leading: IconButton(
-                  onPressed: () {
-                    GoRouter.of(context).push('/SearchView');
-                  },
-                  icon: const Icon(Icons.arrow_back)),
               title: const Center(
                 child: Text('WishList'),
               ),
@@ -91,7 +73,7 @@ class WishListView extends StatelessWidget {
                             label:
                                 'Are you sure of deleting all items in yout WishList',
                             onPressedOk: () {
-                              wishlistProvider.clearLocalWishList();
+                              wishlistProvider.clearWishListFromFirebase();
                               GoRouter.of(context).pop();
                             },
                             onPressedCancel: () {

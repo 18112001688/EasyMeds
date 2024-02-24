@@ -106,9 +106,23 @@ class CustomProductCard extends StatelessWidget {
                       left: 110,
                       top: 150,
                       child: IconButton(
-                          onPressed: () {
-                            wishlistProvider.addOrRemoveProductFromWishList(
-                                productID: getCurrentProduct.productID);
+                          onPressed: () async {
+                            // wishlistProvider.addOrRemoveProductFromWishList(
+                            //     productID: getCurrentProduct.productID);
+                            try {
+                              if (wishlistProvider.getWishListItems
+                                  .containsKey(productId)) {
+                                wishlistProvider.removeOneItemFromFirebase(
+                                    wishListID: wishlistProvider
+                                        .getWishListItems[productId]!
+                                        .wishListID,
+                                    productID: productId);
+                              } else {
+                                wishlistProvider.addToWishListFirebase(
+                                    productID: productId, context: context);
+                              }
+                              await wishlistProvider.fetchWishList();
+                            } catch (e) {}
                           },
                           icon: wishlistProvider.isProductInWishList(
                                   productID: getCurrentProduct.productID)

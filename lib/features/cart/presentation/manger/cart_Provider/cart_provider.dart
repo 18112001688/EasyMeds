@@ -93,7 +93,11 @@ class CartProvider with ChangeNotifier {
     try {
       await usersDB.doc(uid).update({
         "userCart": FieldValue.arrayUnion([
-          {"cartID": cartID, 'productID': productID, 'quantity': quantity}
+          {
+            "cartID": cartID,
+            'productID': productID,
+            'quantity': quantity,
+          }
         ])
       });
 
@@ -138,6 +142,52 @@ class CartProvider with ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> clearCartFromFirebase() async {
+    User? user = auth.currentUser;
+    try {
+      await usersDB.doc(user!.uid).update({
+        "userCart": [],
+      });
+      _cartItems.clear();
+    } catch (e) {
+      rethrow;
+    }
+    notifyListeners();
+  }
+
+  Future<void> removeOneItemFromFirebase({
+    required String cartID,
+    required String productID,
+    required int quantity,
+  }) async {
+    try {
+      // Remove the item locally from _cartItems
+      _cartItems.remove(productID);
+      // Notify listeners to update UI immediately
+      notifyListeners();
+
+      // Update Firestore document to reflect the removed item
+      User? user = auth.currentUser;
+      await usersDB.doc(user!.uid).update({
+        "userCart": FieldValue.arrayRemove([
+          {
+            "cartID": cartID,
+            'productID': productID,
+            'quantity': quantity,
+          }
+        ])
+      });
+
+      // Fetch updated cart from Firebase to ensure consistency
+    } catch (e) {
+      // Handle any errors that may occur during the update process
+
+      notifyListeners();
+      // Rethrow the error to propagate it upwards
       rethrow;
     }
   }

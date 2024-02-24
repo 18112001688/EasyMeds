@@ -4,6 +4,8 @@ import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/views/cart_view.dart';
+import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
+import 'package:medcs/features/favourite/presentation/views/wishlist_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/home/prsentation/views/home_view.dart';
 import 'package:medcs/features/home/prsentation/widgets/custom_drawer.dart';
@@ -26,6 +28,7 @@ List views = const [
   HomeView(),
   SearchView(),
   CartView(),
+  WishListView(),
   ProfileView(),
 ];
 
@@ -34,13 +37,18 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final wishListProvider =
+        Provider.of<WishListProvider>(context, listen: false);
     try {
       Future.wait(
         {
           productProvider.fetchProducts(),
         },
       );
-      Future.wait({cartProvider.fetchCart()});
+      Future.wait({
+        cartProvider.fetchCart(),
+        wishListProvider.fetchWishList(),
+      });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(
           message: 'an error has occured $e', color: Colors.red));
@@ -63,6 +71,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishListProvider = Provider.of<WishListProvider>(context);
 
     return Scaffold(
         bottomNavigationBar: SizedBox(
@@ -122,6 +131,22 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                 ),
                 BottomNavigationBarItem(
                   icon: currentIndex == 3
+                      ? const Text(
+                          'WishList',
+                          style: TextStyle(
+                            color: AppColors.primaryColor,
+                          ),
+                        )
+                      : Badge(
+                          backgroundColor: Colors.red,
+                          label: Text(wishListProvider.getWishListItems.length
+                              .toString()),
+                          child: const Icon(IconlyLight.heart,
+                              color: AppColors.secondryLight)),
+                  label: "",
+                ),
+                BottomNavigationBarItem(
+                  icon: currentIndex == 4
                       ? const Text(
                           'Profile',
                           style: TextStyle(

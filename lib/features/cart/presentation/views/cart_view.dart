@@ -71,7 +71,7 @@ class CartView extends StatelessWidget {
                           label:
                               'Are you sure of deleting all items in yout cart',
                           onPressedOk: () {
-                            cartProvider.clearLocalCart();
+                            cartProvider.clearCartFromFirebase();
                             GoRouter.of(context).pop();
                           },
                           onPressedCancel: () {
