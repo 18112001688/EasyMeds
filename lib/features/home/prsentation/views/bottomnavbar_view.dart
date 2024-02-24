@@ -33,12 +33,14 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   Future<void> fetchFCT() async {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     try {
       Future.wait(
         {
           productProvider.fetchProducts(),
         },
       );
+      Future.wait({cartProvider.fetchCart()});
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(
           message: 'an error has occured $e', color: Colors.red));

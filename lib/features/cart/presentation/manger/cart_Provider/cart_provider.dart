@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/features/cart/data/models/cart_model.dart';
 import 'package:medcs/features/home/data/models/product_model.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
@@ -13,20 +17,9 @@ class CartProvider with ChangeNotifier {
   Map<String, CartModel> get getCartItem {
     return _cartItems;
   }
-  // Checks if a product is already in the cart.
 
   bool isProductInCart({required String productID}) {
     return _cartItems.containsKey(productID);
-  }
-
-  // Adds a product to the cart. If the product is already in the cart, it doesn't add it again.
-  void addProductToCart({required String productID}) {
-    _cartItems.putIfAbsent(
-        productID,
-        () => CartModel(
-            cartID: const Uuid().v4(), productID: productID, quantity: 1));
-
-    notifyListeners();
   }
 
   // Updates the quantity of a product in the cart.
@@ -68,9 +61,84 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// remove all items from the cart
+  // remove all items from the cart
   void clearLocalCart() {
     _cartItems.clear();
     notifyListeners();
+  }
+
+  final usersDB = FirebaseFirestore.instance.collection('users');
+  final auth = FirebaseAuth.instance;
+
+  Future<void> addToCartFirebase({
+    required String productID,
+    required int quantity,
+    required BuildContext context,
+  }) async {
+    final User? user = auth.currentUser;
+    if (user == null) {
+      MyAppMethods.showWarningDialouge(
+          isError: false,
+          context: context,
+          label: 'No user found sign in so you can add products to your cart ',
+          onPressedOk: () {
+            GoRouter.of(context).push('/LoginView');
+          },
+          onPressedCancel: () {});
+      return; // Add this return statement
+    }
+
+    final uid = user.uid;
+    final cartID = const Uuid().v4();
+    try {
+      await usersDB.doc(uid).update({
+        "userCart": FieldValue.arrayUnion([
+          {"cartID": cartID, 'productID': productID, 'quantity': quantity}
+        ])
+      });
+
+      // Update _cartItems right after adding to Firebase
+      _cartItems.putIfAbsent(
+        productID,
+        () => CartModel(
+          cartID: cartID,
+          productID: productID,
+          quantity: quantity,
+        ),
+      );
+
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchCart() async {
+    User? user = auth.currentUser;
+    if (user == null) {
+      _cartItems.clear();
+      return;
+    }
+    try {
+      final userDoc = await usersDB.doc(user.uid).get();
+      final data = userDoc.data();
+      if (data == null || !data.containsKey('userCart')) {
+        return;
+      }
+      final cartList = List<Map<String, dynamic>>.from(data['userCart']);
+      for (final cartItem in cartList) {
+        _cartItems.putIfAbsent(
+          cartItem['cartID'],
+          () => CartModel(
+            cartID: cartItem['cartID'],
+            productID: cartItem['productID'],
+            quantity: cartItem['quantity'],
+          ),
+        );
+        notifyListeners();
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 }

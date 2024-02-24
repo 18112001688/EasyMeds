@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
@@ -128,13 +129,26 @@ class ProductDetailsView extends StatelessWidget {
                                   productID: getCurrentProduct.productID)
                               ? 'Product Added to your cart'
                               : 'Add to cart',
-                          onPressed: () {
+                          onPressed: () async {
                             if (cartProvider.isProductInCart(
                                 productID: getCurrentProduct.productID)) {
                               return;
                             }
-                            cartProvider.addProductToCart(
-                                productID: getCurrentProduct.productID);
+                            try {
+                              await cartProvider.addToCartFirebase(
+                                  productID: getCurrentProduct.productID,
+                                  quantity: 1,
+                                  context: context);
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    CustomSnackBar.buildSnackBar(
+                                        message: e.toString(),
+                                        color: Colors.red));
+                              }
+                            }
+                            // cartProvider.addProductToCart(
+                            //     productID: getCurrentProduct.productID);
                           },
                           color: AppColors.primaryColor,
                           borderRadius: 15,
