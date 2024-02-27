@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
@@ -53,7 +54,9 @@ class CustomUploadPrescriptionCard extends StatelessWidget {
               color: AppColors.primaryColor,
               height: 40,
               width: 170,
-              onPressed: () {},
+              onPressed: () {
+                GoRouter.of(context).push('/UploadPrescriptionView');
+              },
             ),
           ),
           Positioned(

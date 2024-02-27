@@ -86,6 +86,11 @@ abstract class StylesDark {
       fontWeight: FontWeight.w600,
       fontFamily: 'inter',
       color: AppColors.secondryLight);
+  static const titleSubHeading28white = TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'inter',
+      color: Colors.white);
   static const titleRegualar22 = TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w500,
