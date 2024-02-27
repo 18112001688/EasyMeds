@@ -1,7 +1,6 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/constent/app_constant.dart';
 import 'package:medcs/core/constent/colors.dart';
@@ -92,14 +91,6 @@ class _HomeViewState extends State<HomeView> {
               ? const Icon(Icons.menu)
               : SvgPicture.asset(AppImages.menu),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: Icon(
-              IconlyLight.buy,
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         controller: _scrollController,

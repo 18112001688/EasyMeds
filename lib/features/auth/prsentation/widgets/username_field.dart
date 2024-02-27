@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class CustomUsernameFormField extends StatelessWidget {
   const CustomUsernameFormField({super.key, required this.controller});
@@ -6,6 +9,8 @@ class CustomUsernameFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.072,
       width: MediaQuery.of(context).size.width * 0.91,
@@ -13,7 +18,9 @@ class CustomUsernameFormField extends StatelessWidget {
         left: 10,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xffF9FAFB),
+        color: themeProvider.isDarkMode
+            ? AppColors.secondryScaffold
+            : const Color(0xffF9FAFB),
         borderRadius: const BorderRadius.all(Radius.circular(24)),
         border: Border.all(
           color: Colors.black12,

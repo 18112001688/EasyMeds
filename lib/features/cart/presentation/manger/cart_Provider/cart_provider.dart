@@ -84,7 +84,9 @@ class CartProvider with ChangeNotifier {
           onPressedOk: () {
             GoRouter.of(context).push('/LoginView');
           },
-          onPressedCancel: () {});
+          onPressedCancel: () {
+            GoRouter.of(context).pop();
+          });
       return; // Add this return statement
     }
 

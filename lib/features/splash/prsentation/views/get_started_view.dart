@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/splash/prsentation/views/intrduction_three_view.dart';
 import 'package:medcs/features/splash/prsentation/views/intrduction_two_view.dart';
 import 'package:medcs/features/splash/prsentation/views/intrudction_one_view.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class GetStartedView extends StatefulWidget {
@@ -19,7 +21,11 @@ class GetStartedViewState extends State<GetStartedView> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return Scaffold(
+      backgroundColor:
+          themeProvider.isDarkMode ? AppColors.scaffoldDarkMode : Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -45,9 +51,11 @@ class GetStartedViewState extends State<GetStartedView> {
           SmoothPageIndicator(
             controller: controller,
             count: 3,
-            effect: const WormEffect(
+            effect: WormEffect(
               activeDotColor: AppColors.primaryColor,
-              dotColor: Color(0xffECEBED),
+              dotColor: themeProvider.isDarkMode
+                  ? AppColors.secondryScaffold
+                  : const Color(0xffECEBED),
               dotHeight: 8,
               dotWidth: 8,
             ),

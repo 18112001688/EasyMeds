@@ -46,11 +46,14 @@ class WishListProvider with ChangeNotifier {
       MyAppMethods.showWarningDialouge(
           isError: false,
           context: context,
-          label: 'No user found sign in so you can add products to your cart ',
+          label:
+              'No user found sign in so you can add products to your WishList ',
           onPressedOk: () {
             GoRouter.of(context).push('/LoginView');
           },
-          onPressedCancel: () {});
+          onPressedCancel: () {
+            GoRouter.of(context).pop();
+          });
       return; // Add this return statement
     }
 

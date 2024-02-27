@@ -54,7 +54,8 @@ class _LoginViewImpState extends State<LoginViewImp> {
                       padding: const EdgeInsets.only(left: 20),
                       child: GestureDetector(
                           onTap: () {
-                            GoRouter.of(context).pop();
+                            GoRouter.of(context)
+                                .push('/GetStartedRegisterView');
                           },
                           child: const Icon(Icons.arrow_back)),
                     ),
@@ -130,14 +131,14 @@ class _LoginViewImpState extends State<LoginViewImp> {
                   onPressed: () {
                     try {
                       AuthSevice.signInWithGoogle().then((value) =>
-                          GoRouter.of(context).push('/BottomNavBarView'));
+                          GoRouter.of(context)
+                              .pushReplacement('/BottomNavBarView'));
                     } on Exception catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           CustomSnackBar.buildSnackBar(
                               message: "$e", color: Colors.red));
                     }
                   },
-                  textColor: Colors.black,
                   image: AppImages.google,
                 ),
                 const SizedBox(
@@ -148,14 +149,14 @@ class _LoginViewImpState extends State<LoginViewImp> {
                   onPressed: () {
                     try {
                       AuthSevice.signInWithFacebook().then((value) =>
-                          GoRouter.of(context).push('/BottomNavBarView'));
+                          GoRouter.of(context)
+                              .pushReplacement('/BottomNavBarView'));
                     } on Exception catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           CustomSnackBar.buildSnackBar(
                               message: "$e", color: Colors.red));
                     }
                   },
-                  textColor: Colors.black,
                   image: AppImages.facebook,
                 ),
               ],
@@ -179,7 +180,7 @@ class _LoginViewImpState extends State<LoginViewImp> {
 
         if (mounted) {
           if (FirebaseAuth.instance.currentUser!.emailVerified) {
-            GoRouter.of(context).push('/BottomNavBarView');
+            GoRouter.of(context).pushReplacement('/BottomNavBarView');
             ScaffoldMessenger.of(context).showSnackBar(
                 CustomSnackBar.buildSnackBar(
                     message: 'Logged in successfuly', color: Colors.green));

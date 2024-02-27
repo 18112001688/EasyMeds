@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
+import 'package:provider/provider.dart';
 
 class GetStartedRegisterView extends StatelessWidget {
   const GetStartedRegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return Scaffold(
       body: Center(
         child: Column(
@@ -21,11 +24,11 @@ class GetStartedRegisterView extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Text(
+            Text(
               "Let's get started!",
               style: TextStyle(
                   fontSize: 22,
-                  color: Colors.black,
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                   fontFamily: 'inter',
                   fontWeight: FontWeight.w900),
             ),
@@ -51,7 +54,7 @@ class GetStartedRegisterView extends StatelessWidget {
               fontSize: 16,
               label: 'Guest',
               onPressed: () {
-                GoRouter.of(context).push('/BottomNavBarView');
+                GoRouter.of(context).pushReplacement('/BottomNavBarView');
               },
               color: AppColors.primaryColor,
               borderRadius: 32,
@@ -83,7 +86,9 @@ class GetStartedRegisterView extends StatelessWidget {
               onPressed: () {
                 GoRouter.of(context).push('/SignUpView');
               },
-              color: Colors.white,
+              color: themeProvider.isDarkMode
+                  ? AppColors.secondryBlack
+                  : Colors.white,
               borderRadius: 32,
               height: MediaQuery.of(context).size.height * 0.072,
               width: MediaQuery.of(context).size.width * 0.73,

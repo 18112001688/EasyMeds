@@ -128,7 +128,7 @@ class _ProfileViewState extends State<ProfileView>
               CustomProfileOptions(
                 image: AppImages.document,
                 onTap: () {},
-                text: 'WishList',
+                text: 'orders',
               ),
               CustomProfileOptions(
                 image: AppImages.language,

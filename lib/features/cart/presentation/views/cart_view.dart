@@ -8,6 +8,7 @@ import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_cart.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartView extends StatelessWidget {
@@ -16,6 +17,7 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return cartProvider.getCartItem.isEmpty
         ? Scaffold(
@@ -38,12 +40,17 @@ class CartView extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.w500),
                   ),
-                  const Row(
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Your Cart is Empty',
-                        style: StylesLight.titleRegualar22,
+                        style: themeProvider.isDarkMode
+                            ? StylesDark.titleRegualar22
+                            : StylesLight.titleRegualar22,
                       ),
                     ],
                   ),

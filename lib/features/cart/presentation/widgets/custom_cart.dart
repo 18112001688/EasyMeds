@@ -56,7 +56,7 @@ class CustomCart extends StatelessWidget {
                 ],
                 border: Border.all(
                     color: themeProvider.isDarkMode
-                        ? Colors.black
+                        ? AppColors.secondryScaffold
                         : Colors.white)),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -70,8 +70,10 @@ class CustomCart extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         border: Border.all(
-                          color: const Color(0xffE8F3F1),
-                          width: 1,
+                          color: themeProvider.isDarkMode
+                              ? AppColors.secondryScaffold
+                              : const Color(0xffE8F3F1),
+                          width: 2,
                         )),
                     child: Image.network(
                       getCurrentProduct.productImage,

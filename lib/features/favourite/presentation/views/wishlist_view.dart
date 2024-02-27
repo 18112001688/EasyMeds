@@ -7,6 +7,7 @@ import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/favourite/presentation/manger/wishlist_provider.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 
 import 'package:medcs/features/home/prsentation/widgets/custom_product_card.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class WishListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wishlistProvider = Provider.of<WishListProvider>(context);
+    final themeProvider = context.watch<ThemeProvider>();
 
     return wishlistProvider.getWishListItems.isEmpty
         ? Scaffold(
@@ -39,16 +41,17 @@ class WishListView extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.w500),
                   ),
-                  const Text(
-                    'Your Wish List is Empty',
-                    style: StylesLight.bodyLarge17,
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   Text(
-                    "Go find products you like",
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    'Your Wish List is Empty',
+                    style: themeProvider.isDarkMode
+                        ? StylesDark.titleRegualar22
+                        : StylesLight.titleRegualar22,
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   const SizedBox(
                     height: 40,

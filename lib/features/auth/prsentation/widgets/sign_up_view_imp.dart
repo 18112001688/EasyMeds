@@ -57,7 +57,8 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
                       padding: const EdgeInsets.only(left: 20),
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+                            GoRouter.of(context)
+                                .push('/GetStartedRegisterView');
                           },
                           child: const Icon(Icons.arrow_back)),
                     ),
@@ -183,14 +184,14 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
                   onPressed: () {
                     try {
                       AuthSevice.signInWithGoogle().then((value) =>
-                          GoRouter.of(context).push('/BottomNavBarView'));
+                          GoRouter.of(context)
+                              .pushReplacement('/BottomNavBarView'));
                     } on Exception catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           CustomSnackBar.buildSnackBar(
                               message: "$e", color: Colors.red));
                     }
                   },
-                  textColor: Colors.black,
                   image: AppImages.google,
                 ),
                 const SizedBox(
@@ -201,14 +202,14 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
                   onPressed: () {
                     try {
                       AuthSevice.signInWithFacebook().then((value) =>
-                          GoRouter.of(context).push('/BottomNavBarView'));
+                          GoRouter.of(context)
+                              .pushReplacement('/BottomNavBarView'));
                     } on Exception catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           CustomSnackBar.buildSnackBar(
                               message: "$e", color: Colors.red));
                     }
                   },
-                  textColor: Colors.black,
                   image: AppImages.facebook,
                 ),
               ],
