@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/auth/prsentation/widgets/custom_or_widget.dart';
@@ -103,69 +107,117 @@ class UploadPrescriptionView extends StatelessWidget {
   }
 }
 
-class CustomUploadImage extends StatelessWidget {
+class CustomUploadImage extends StatefulWidget {
   const CustomUploadImage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final themePorvider = Provider.of<ThemeProvider>(context);
+  State<CustomUploadImage> createState() => _CustomUploadImageState();
+}
 
-    return Container(
-      width: 341,
-      height: 70,
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primaryColor, width: 0.5),
-        color: themePorvider.isDarkMode
-            ? AppColors.secondryScaffold
-            : Colors.white,
-        boxShadow: [
-          BoxShadow(
-            // Inner shadow
-            color: themePorvider.isDarkMode
-                ? AppColors.scaffoldDarkMode
-                : const Color.fromARGB(
-                    255, 238, 238, 238), // Subtle grey shadow
-            offset: const Offset(0.0, 1.0), // Slight offset down
-            blurRadius: 4.0, // Blur radius
-            spreadRadius: 2.0, // No spread
-          ),
-          BoxShadow(
-            // Inner shadow
-            color: themePorvider.isDarkMode
-                ? AppColors.scaffoldDarkMode
-                : const Color.fromARGB(
-                    255, 238, 238, 238), // Subtle grey shadow
-            offset: const Offset(0.0, 1.0), // Slight offset down
-            blurRadius: 4.0, // Blur radius
-            spreadRadius: 2.0, // No spread
-          ),
-        ],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.only(left: 10),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 28,
-              child: Icon(
-                Icons.camera_alt_outlined,
-                size: 30,
-                color: AppColors.primaryColor,
-              ),
+class _CustomUploadImageState extends State<CustomUploadImage> {
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    File? _imageFile;
+    final picker = ImagePicker();
+
+    Future<void> _pickImage() async {
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      setState(() {
+        if (pickedFile != null) {
+          _imageFile = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      });
+    }
+
+    Future<String?> _uploadImage(File imageFile) async {
+      try {
+        // Reference to the root directory of Firebase Storage
+        final Reference storageRef = FirebaseStorage.instance.ref();
+
+        // Create a reference to the file to upload
+        final Reference fileRef = storageRef.child(
+          'prescriptionImages/${DateTime.now().millisecondsSinceEpoch}.jpg',
+        );
+
+        // Upload the file to Firebase Storage
+        final TaskSnapshot uploadTask = await fileRef.putFile(imageFile);
+
+        // Get the download URL of the uploaded file
+        final String imageUrl = await uploadTask.ref.getDownloadURL();
+
+        // Return the download URL
+        return imageUrl;
+      } catch (e) {
+        print('Error uploading image to Firebase Storage: $e');
+        return null;
+      }
+    }
+
+    return GestureDetector(
+      onTap: () {
+        _uploadImage(_imageFile!);
+      },
+      child: Container(
+        width: 341,
+        height: 70,
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.primaryColor, width: 0.5),
+          color: themeProvider.isDarkMode
+              ? AppColors.secondryScaffold
+              : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              // Inner shadow
+              color: themeProvider.isDarkMode
+                  ? AppColors.scaffoldDarkMode
+                  : const Color.fromARGB(255, 238, 238, 238),
+              // Subtle grey shadow
+              offset: const Offset(0.0, 1.0), // Slight offset down
+              blurRadius: 4.0, // Blur radius
+              spreadRadius: 2.0, // No spread
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 12, left: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('upload a photo of your'),
-                  Text('prescription or product'),
-                ],
-              ),
-            )
+            BoxShadow(
+              // Inner shadow
+              color: themeProvider.isDarkMode
+                  ? AppColors.scaffoldDarkMode
+                  : const Color.fromARGB(255, 238, 238, 238),
+              // Subtle grey shadow
+              offset: const Offset(0.0, 1.0), // Slight offset down
+              blurRadius: 4.0, // Blur radius
+              spreadRadius: 2.0, // No spread
+            ),
           ],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 28,
+                child: Icon(
+                  Icons.camera_alt_outlined,
+                  size: 30,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 12, left: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('upload a photo of your'),
+                    Text('prescription or product'),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
