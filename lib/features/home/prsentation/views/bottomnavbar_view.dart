@@ -46,8 +46,8 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         },
       );
       Future.wait({
-        cartProvider.fetchCart(),
         wishListProvider.fetchWishList(),
+        cartProvider.fetchCart(),
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(

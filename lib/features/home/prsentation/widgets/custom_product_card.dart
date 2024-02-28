@@ -122,7 +122,9 @@ class CustomProductCard extends StatelessWidget {
                                     productID: productId, context: context);
                               }
                               await wishlistProvider.fetchWishList();
-                            } catch (e) {}
+                            } catch (e) {
+                              rethrow;
+                            }
                           },
                           icon: wishlistProvider.isProductInWishList(
                                   productID: getCurrentProduct.productID)

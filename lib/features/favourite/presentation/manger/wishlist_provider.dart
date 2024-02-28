@@ -17,18 +17,18 @@ class WishListProvider with ChangeNotifier {
     return _wishListItems.containsKey(productID);
   }
 
-  void addOrRemoveProductFromWishList({required String productID}) {
-    if (_wishListItems.containsKey(productID)) {
-      _wishListItems.remove(productID);
-    } else {
-      _wishListItems.putIfAbsent(
-          productID,
-          () => WishListModel(
-              wishListID: const Uuid().v4(), productID: productID));
-    }
+  // void addOrRemoveProductFromWishList({required String productID}) {
+  //   if (_wishListItems.containsKey(productID)) {
+  //     _wishListItems.remove(productID);
+  //   } else {
+  //     _wishListItems.putIfAbsent(
+  //         productID,
+  //         () => WishListModel(
+  //             wishListID: const Uuid().v4(), productID: productID));
+  //   }
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
   void clearLocalWishList() {
     _wishListItems.clear();
@@ -69,7 +69,6 @@ class WishListProvider with ChangeNotifier {
         ])
       });
 
-      // Update _cartItems right after adding to Firebase
       _wishListItems.putIfAbsent(
         productID,
         () => WishListModel(
@@ -99,11 +98,12 @@ class WishListProvider with ChangeNotifier {
       final wishList = List<Map<String, dynamic>>.from(data['userWish']);
       for (final wishItems in wishList) {
         _wishListItems.putIfAbsent(
-          wishItems['wishListID'],
+          wishItems['productID'],
           () => WishListModel(
               productID: wishItems['productID'],
-              wishListID: wishItems['wishListID']),
+              wishListID: wishItems['WishListID']),
         );
+
         notifyListeners();
       }
     } catch (e) {
@@ -139,13 +139,14 @@ class WishListProvider with ChangeNotifier {
       await usersDB.doc(user!.uid).update({
         "userWish": FieldValue.arrayRemove([
           {
-            "wishListID": wishListID,
+            "WishListID": wishListID,
             'productID': productID,
           }
         ])
       });
 
       // Fetch updated cart from Firebase to ensure consistency
+      await fetchWishList();
     } catch (e) {
       // Handle any errors that may occur during the update process
 
