@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,11 @@ class UploadPrescriptionView extends StatefulWidget {
 class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
   File? pickedImage;
   bool _isLoading = false;
-  Future<void> _uploadImage(File? imageFile) async {
+  final TextEditingController _descriptionController = TextEditingController();
+  Future<void> _uploadPrescription(
+    File? imageFile,
+    String description,
+  ) async {
     final auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     if (user == null) {
@@ -41,15 +46,12 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
             GoRouter.of(context).pop();
           });
     } else {
-      if (imageFile == null) {
-        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(
-            message: 'please select an image first', color: Colors.red));
-      } else {
-        try {
-          setState(() {
-            _isLoading = true;
-          });
+      try {
+        setState(() {
+          _isLoading = true;
+        });
 
+        if (imageFile != null) {
           final String fileName =
               DateTime.now().millisecondsSinceEpoch.toString();
           final String extension = imageFile.path.split('.').last;
@@ -58,21 +60,65 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
               .ref()
               .child('prescriptionImages/$fileName.$extension');
           final UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
+          final TaskSnapshot taskSnapshot = await uploadTask;
+          final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+          await FirebaseFirestore.instance
+              .collection('prescriptionsImages')
+              .add({
+            'userName': user.displayName,
+            'userEmail': user.email,
+            'userImage': user.photoURL,
+            'imageURL': downloadUrl,
+            'timestamp': FieldValue.serverTimestamp(),
+          });
           await uploadTask.whenComplete(() {
             ScaffoldMessenger.of(context).showSnackBar(
                 CustomSnackBar.buildSnackBar(
                     message: 'Image uploaded successfully',
                     color: Colors.green));
+
+            GoRouter.of(context).pop();
           });
-        } catch (e) {
-          rethrow;
-        } finally {
-          setState(() {
-            _isLoading = false;
+        } else if (description.isNotEmpty) {
+          // Store description in Firestore
+          await FirebaseFirestore.instance.collection('prescriptions').add({
+            'description': description,
+            'userName': user.displayName,
+            'userEmail': user.email,
+            'userImage': user.photoURL,
+            'timestamp': FieldValue.serverTimestamp(),
           });
+
+          // Show success message for description upload
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                CustomSnackBar.buildSnackBar(
+                    message: 'Prescription uploaded successfully',
+                    color: Colors.green));
+            GoRouter.of(context).pop();
+          }
+        } else {
+          // If both image and description are empty
+          ScaffoldMessenger.of(context).showSnackBar(
+              CustomSnackBar.buildSnackBar(
+                  message: 'Please select an image or write your prescription',
+                  color: Colors.red));
         }
+      } catch (e) {
+        rethrow;
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _descriptionController.clear();
+    super.dispose();
   }
 
   @override
@@ -137,11 +183,11 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
                           )),
                     ],
                   ),
-                  Text(
+                  const Text(
                     'type here your medicine name or the product ',
                     style: StylesDark.bodySmall13,
                   ),
-                  Text(
+                  const Text(
                     'name that you want to order',
                     style: StylesDark.bodySmall13,
                   ),
@@ -152,9 +198,7 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
               ),
               Padding(
                 padding: const EdgeInsets.all(14.0),
-                child: DescriptionFormField(
-                  controller: TextEditingController(),
-                ),
+                child: DescriptionFormField(controller: _descriptionController),
               ),
               const SizedBox(
                 height: 10,
@@ -163,15 +207,8 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
                 child: CustomPrimaryButton(
                     label: 'send',
                     onPressed: () {
-                      if (pickedImage == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            CustomSnackBar.buildSnackBar(
-                                message:
-                                    'please provide an image. or write a prescription',
-                                color: Colors.red));
-                      } else {
-                        _uploadImage(pickedImage);
-                      }
+                      _uploadPrescription(
+                          pickedImage, _descriptionController.text);
                     },
                     color: AppColors.primaryColor,
                     borderRadius: 15,
