@@ -125,6 +125,7 @@ class CustomHomeDrawer extends StatelessWidget {
                           label: 'Are you sure you want to logout',
                           onPressedOk: () async {
                             await FirebaseAuth.instance.signOut();
+
                             if (context.mounted) {
                               GoRouter.of(context)
                                   .push('/GetStartedRegisterView');

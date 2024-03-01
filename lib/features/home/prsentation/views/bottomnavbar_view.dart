@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:medcs/core/constent/colors.dart';
@@ -39,15 +40,23 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final wishListProvider =
         Provider.of<WishListProvider>(context, listen: false);
+
     try {
       Future.wait(
         {
           productProvider.fetchProducts(),
         },
       );
-      Future.wait({
-        wishListProvider.fetchWishList(),
-        cartProvider.fetchCart(),
+      //make sure to listien to auth changes to know if the user really signed out or not
+      FirebaseAuth.instance.authStateChanges().listen((user) {
+        if (user == null) {
+          // User has logged out, clear the cart and wishlist
+          cartProvider.clearLocalCart();
+          wishListProvider.clearLocalWishList();
+        } else {
+          cartProvider.fetchCart();
+          wishListProvider.fetchWishList();
+        }
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(
