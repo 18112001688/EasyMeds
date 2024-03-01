@@ -51,7 +51,7 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
           _isLoading = true;
         });
 
-        if (imageFile != null) {
+        if (imageFile != null && description.isEmpty) {
           final String fileName =
               DateTime.now().millisecondsSinceEpoch.toString();
           final String extension = imageFile.path.split('.').last;
@@ -80,7 +80,7 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
 
             GoRouter.of(context).pop();
           });
-        } else if (description.isNotEmpty) {
+        } else if (description.isNotEmpty && imageFile == null) {
           // Store description in Firestore
           await FirebaseFirestore.instance.collection('prescriptions').add({
             'description': description,
@@ -100,10 +100,10 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
           }
         } else {
           // If both image and description are empty
-          ScaffoldMessenger.of(context).showSnackBar(
-              CustomSnackBar.buildSnackBar(
-                  message: 'Please select an image or write your prescription',
-                  color: Colors.red));
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(
+              message:
+                  'Please select an image or write your prescription and not both',
+              color: Colors.red));
         }
       } catch (e) {
         rethrow;
