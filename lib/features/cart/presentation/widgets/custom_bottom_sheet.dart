@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
@@ -17,7 +18,7 @@ class CustomBottomSheet extends StatelessWidget {
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
-      height: 200,
+      height: 400,
       decoration: BoxDecoration(
         color: themeProvider.isDarkMode
             ? AppColors.scaffoldDarkMode
@@ -29,6 +30,24 @@ class CustomBottomSheet extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Deleviery Address',
+                      style: StylesLight.bodyLarge17,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          GoRouter.of(context).push('/DeliveryAdressView');
+                        },
+                        child: const Icon(Icons.arrow_forward_ios))
+                  ],
+                )
+              ],
+            ),
             Text(
               'Order Info',
               style: TextStyle(

@@ -9,7 +9,7 @@ class CustomLoadingIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: SpinKitWave(
-        color: AppColors.secondryPurple,
+        color: AppColors.secondryOrange,
         size: 50.0,
       ),
     );
