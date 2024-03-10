@@ -17,9 +17,7 @@ class CustomCountryField extends StatelessWidget {
           } else if (value.length < 5) {
             return 'Address must be at least 6 characters long';
           } else if (value.length > 100) {
-            return 'Address must be less than 100 characters long';
-          } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
-            return 'Address can only contain letters, numbers, and underscores';
+            return 'Country must be less than 100 characters long';
           }
           return null;
         },

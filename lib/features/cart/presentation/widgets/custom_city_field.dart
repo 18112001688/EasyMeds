@@ -13,12 +13,10 @@ class CustomCityField extends StatelessWidget {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Please enter a valid name';
-          } else if (value.length < 5) {
+          } else if (value.length < 4) {
             return 'Address must be at least 6 characters long';
-          } else if (value.length > 100) {
-            return 'Address must be less than 100 characters long';
-          } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
-            return 'Address can only contain letters, numbers, and underscores';
+          } else if (value.length > 20) {
+            return 'City must be less than 100 characters long';
           }
           return null;
         },
