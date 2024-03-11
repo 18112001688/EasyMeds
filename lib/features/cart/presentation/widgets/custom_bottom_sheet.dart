@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
+import 'package:medcs/features/cart/presentation/views/delivery_address_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
-class CustomBottomSheet extends StatelessWidget {
-  const CustomBottomSheet({super.key});
+class CustomBottomSheet extends StatefulWidget {
+  const CustomBottomSheet({super.key, required this.addressSent});
+
+  final String addressSent;
+
+  @override
+  State<CustomBottomSheet> createState() => _CustomBottomSheetState();
+}
+
+class _CustomBottomSheetState extends State<CustomBottomSheet> {
+  late String address;
+
+  @override
+  void initState() {
+    super.initState();
+    address = widget.addressSent;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +55,31 @@ class CustomBottomSheet extends StatelessWidget {
                       style: StylesLight.bodyLarge17,
                     ),
                     GestureDetector(
-                        onTap: () {
-                          GoRouter.of(context).push('/DeliveryAdressView');
-                        },
-                        child: const Icon(Icons.arrow_forward_ios))
+                      onTap: () async {
+                        // Navigate to DeliveryAddressView and handle returned address
+                        final newAddress = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DeliveryAdressView(),
+                          ),
+                        );
+                        if (newAddress != null) {
+                          setState(() {
+                            address = newAddress;
+                          });
+                        } // Update address in parent widget
+                      },
+                      child: const Icon(Icons.arrow_forward_ios),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      address,
+                      style: const TextStyle(
+                          color: AppColors.secondryLight, fontSize: 14),
+                    ),
                   ],
                 )
               ],

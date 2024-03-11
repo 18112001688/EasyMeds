@@ -17,8 +17,6 @@ class CustomNameField extends StatelessWidget {
             return 'Name must be at least 3 characters long';
           } else if (value.length > 20) {
             return 'Name must be less than 20 characters long';
-          } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
-            return 'Name can only contain letters, numbers, and underscores';
           }
           return null;
         },

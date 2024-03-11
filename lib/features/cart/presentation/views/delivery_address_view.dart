@@ -16,7 +16,9 @@ import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class DeliveryAdressView extends StatefulWidget {
-  const DeliveryAdressView({super.key});
+  const DeliveryAdressView({
+    super.key,
+  });
 
   @override
   State<DeliveryAdressView> createState() => _DeliveryAdressViewState();
@@ -32,6 +34,7 @@ bool _isLoading = false;
 GlobalKey<FormState> _key = GlobalKey();
 
 class _DeliveryAdressViewState extends State<DeliveryAdressView> {
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,9 +99,8 @@ class _DeliveryAdressViewState extends State<DeliveryAdressView> {
                     ),
                     CustomFormFieldWidget(
                       name: 'Address',
-                      textFormField: CustomAddressField(
-                        controller: _addressController,
-                      ),
+                      textFormField:
+                          CustomAddressField(controller: _addressController),
                     ),
                     const SizedBox(
                       height: 100,
@@ -106,7 +108,7 @@ class _DeliveryAdressViewState extends State<DeliveryAdressView> {
                     CustomPrimaryButton(
                         label: 'Save Adress',
                         onPressed: () {
-                          _saveAdress();
+                          _saveAdress(context);
                         },
                         color: AppColors.primaryColor,
                         borderRadius: 15,
@@ -125,7 +127,7 @@ class _DeliveryAdressViewState extends State<DeliveryAdressView> {
     );
   }
 
-  Future<void> _saveAdress() async {
+  Future<void> _saveAdress(BuildContext context) async {
     final user = FirebaseAuth.instance;
     if (user.currentUser == null) {
       MyAppMethods.showWarningDialouge(
@@ -155,7 +157,7 @@ class _DeliveryAdressViewState extends State<DeliveryAdressView> {
                     color: Colors.green));
           }
           if (mounted) {
-            GoRouter.of(context).pop();
+            Navigator.of(context).pop(_addressController.text.trim());
           }
         } catch (e) {
           rethrow;
