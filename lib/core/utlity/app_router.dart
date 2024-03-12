@@ -5,6 +5,7 @@ import 'package:medcs/features/auth/prsentation/views/sign_up_view.dart';
 import 'package:medcs/features/auth/prsentation/views/verify_view.dart';
 import 'package:medcs/features/cart/presentation/views/cart_view.dart';
 import 'package:medcs/features/cart/presentation/views/delivery_address_view.dart';
+import 'package:medcs/features/cart/presentation/views/payment_view.dart';
 import 'package:medcs/features/favourite/presentation/views/wishlist_view.dart';
 import 'package:medcs/features/home/prsentation/views/bottomNavBar_view.dart';
 import 'package:medcs/features/home/prsentation/views/home_view.dart';
@@ -76,6 +77,10 @@ class AppRoute {
       GoRoute(
         path: '/DeliveryAdressView',
         builder: (context, state) => const DeliveryAdressView(),
+      ),
+      GoRoute(
+        path: '/PaymentView',
+        builder: (context, state) => const PaymentView(),
       ),
     ],
   );

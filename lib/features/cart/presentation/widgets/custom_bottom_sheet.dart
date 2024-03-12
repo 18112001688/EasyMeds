@@ -3,6 +3,7 @@ import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/views/delivery_address_view.dart';
+import 'package:medcs/features/cart/presentation/views/payment_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
@@ -83,7 +84,37 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           color: AppColors.secondryLight, fontSize: 14),
                     ),
                   ],
-                )
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Payment',
+                      style: StylesLight.bodyLarge17,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => PaymentView())));
+                      },
+                      child: const Icon(Icons.arrow_forward_ios),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Cash',
+                      style: const TextStyle(
+                          color: AppColors.secondryLight, fontSize: 14),
+                    ),
+                  ],
+                ),
               ],
             ),
             const SizedBox(
