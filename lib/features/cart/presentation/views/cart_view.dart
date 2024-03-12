@@ -81,6 +81,7 @@ class _CartViewState extends State<CartView> {
                   returnedAddress, // Pass the address to CustomBottomSheet
             ),
             appBar: AppBar(
+              leading: null,
               title: const Text('Cart'),
               actions: [
                 IconButton(

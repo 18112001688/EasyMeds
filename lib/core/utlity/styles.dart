@@ -107,6 +107,12 @@ abstract class StylesDark {
     fontFamily: 'inter',
     color: AppColors.secondryLight,
   );
+  static const bodyLarge17White = TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'inter',
+    color: Colors.white,
+  );
   static const bodyLarge17SemiBold = TextStyle(
     fontSize: 17,
     fontWeight: FontWeight.w600,

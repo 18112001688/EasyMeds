@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomCountryField extends StatelessWidget {
-  const CustomCountryField({super.key, required this.controller});
+  const CustomCountryField(
+      {super.key, required this.controller, required this.fillColor});
   final TextEditingController controller;
+  final Color fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +23,15 @@ class CustomCountryField extends StatelessWidget {
           }
           return null;
         },
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(10))),
           hintText: 'Country',
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.grey,
           ),
-          fillColor: Color(0xffF5F6FA),
+          fillColor: fillColor,
           filled: true,
         ),
       ),

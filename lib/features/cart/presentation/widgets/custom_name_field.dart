@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomNameField extends StatelessWidget {
-  const CustomNameField({super.key, required this.controller});
+  const CustomNameField(
+      {super.key, required this.controller, required this.fillColor});
   final TextEditingController controller;
+  final Color fillColor;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -20,15 +23,15 @@ class CustomNameField extends StatelessWidget {
           }
           return null;
         },
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(10))),
           hintText: 'Enter your name',
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.grey,
           ),
-          fillColor: Color(0xffF5F6FA),
+          fillColor: fillColor,
           filled: true,
         ),
       ),

@@ -33,7 +33,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
-      height: 400,
+      height: 300,
       decoration: BoxDecoration(
         color: themeProvider.isDarkMode
             ? AppColors.scaffoldDarkMode
@@ -50,9 +50,11 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Deleviery Address',
-                      style: StylesLight.bodyLarge17,
+                      style: themeProvider.isDarkMode
+                          ? StylesDark.bodyLarge17White
+                          : StylesLight.bodyLarge17,
                     ),
                     GestureDetector(
                       onTap: () async {
@@ -84,6 +86,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 )
               ],
             ),
+            const SizedBox(
+              height: 20,
+            ),
             Text(
               'Order Info',
               style: TextStyle(
@@ -92,17 +97,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       : AppColors.secondryBlack,
                   fontSize: 17),
             ),
-            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Subtotal',
-                  style: TextStyle(
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : AppColors.secondryBlack),
-                ),
+                const Text('Subtotal',
+                    style: TextStyle(
+                      color: AppColors.secondryLight,
+                    )),
                 Text(
                   '\$20',
                   style: TextStyle(
@@ -112,16 +113,19 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 ),
               ],
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Shipping cost',
                   style: StylesLight.bodyMeduimGrey15,
                 ),
                 Text(
                   '\$20',
-                  style: TextStyle(color: AppColors.secondryBlack),
+                  style: TextStyle(
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : AppColors.secondryBlack),
                 ),
               ],
             ),
@@ -138,7 +142,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               children: [
                 Text(
                   '\$${cartProvider.getTotal(productProvider: productProvider)}',
-                  style: const TextStyle(color: AppColors.secondryBlack),
+                  style: TextStyle(
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : AppColors.secondryBlack),
                 ),
                 const Spacer(),
                 CustomPrimaryButton(
