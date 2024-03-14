@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/views/delivery_address_view.dart';
-import 'package:medcs/features/cart/presentation/views/payment_view.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 class CustomBottomSheet extends StatefulWidget {
-  const CustomBottomSheet({super.key, required this.addressSent});
+  const CustomBottomSheet(
+      {super.key, required this.addressSent, required this.onPressed});
 
   final String addressSent;
+
+  final VoidCallback onPressed;
 
   @override
   State<CustomBottomSheet> createState() => _CustomBottomSheetState();
@@ -70,7 +73,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           setState(() {
                             address = newAddress;
                           });
-                        } // Update address in parent widget
+                        }
+                        print('address is $address');
                       },
                       child: const Icon(Icons.arrow_forward_ios),
                     )
@@ -97,20 +101,17 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => PaymentView())));
+                        GoRouter.of(context).push('/PaymentView');
                       },
                       child: const Icon(Icons.arrow_forward_ios),
                     )
                   ],
                 ),
-                Row(
+                const Row(
                   children: [
                     Text(
                       'Cash',
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: AppColors.secondryLight, fontSize: 14),
                     ),
                   ],
@@ -128,22 +129,22 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       : AppColors.secondryBlack,
                   fontSize: 17),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Subtotal',
-                    style: TextStyle(
-                      color: AppColors.secondryLight,
-                    )),
-                Text(
-                  '\$20',
-                  style: TextStyle(
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : AppColors.secondryBlack),
-                ),
-              ],
-            ),
+            // const Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     // const Text('Subtotal',
+            //     //     style: TextStyle(
+            //     //       color: AppColors.secondryLight,
+            //     //     )),
+            //     // Text(
+            //     //   '\$20',
+            //     //   style: TextStyle(
+            //     //       color: themeProvider.isDarkMode
+            //     //           ? Colors.white
+            //     //           : AppColors.secondryBlack),
+            //     // ),
+            //   ],
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -181,7 +182,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 const Spacer(),
                 CustomPrimaryButton(
                   label: 'Checkout',
-                  onPressed: () {},
+                  onPressed: widget.onPressed,
                   color: AppColors.primaryColor,
                   borderRadius: 14,
                   height: 40,

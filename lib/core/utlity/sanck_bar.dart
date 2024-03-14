@@ -6,7 +6,7 @@ class CustomSnackBar {
     return SnackBar(
       content: Text(message),
       backgroundColor: color,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 4),
       behavior: SnackBarBehavior.floating,
     );
   }
