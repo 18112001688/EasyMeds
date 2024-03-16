@@ -27,10 +27,10 @@ class CartProvider with ChangeNotifier {
     _cartItems.update(
       productID,
       (item) => CartModel(
-        cartID: item.cartID,
-        productID: productID,
-        quantity: quantity,
-      ),
+          cartID: item.cartID,
+          productID: productID,
+          quantity: quantity,
+          productName: item.productName),
     );
 
     notifyListeners();
@@ -73,6 +73,7 @@ class CartProvider with ChangeNotifier {
   Future<void> addToCartFirebase({
     required String productID,
     required int quantity,
+    required String productName,
     required BuildContext context,
   }) async {
     final User? user = auth.currentUser;
@@ -107,10 +108,10 @@ class CartProvider with ChangeNotifier {
       _cartItems.putIfAbsent(
         productID,
         () => CartModel(
-          cartID: cartID,
-          productID: productID,
-          quantity: quantity,
-        ),
+            cartID: cartID,
+            productID: productID,
+            quantity: quantity,
+            productName: productName),
       );
 
       notifyListeners();
@@ -136,10 +137,10 @@ class CartProvider with ChangeNotifier {
         _cartItems.putIfAbsent(
           cartItem['cartID'],
           () => CartModel(
-            cartID: cartItem['cartID'],
-            productID: cartItem['productID'],
-            quantity: cartItem['quantity'],
-          ),
+              cartID: cartItem['cartID'],
+              productID: cartItem['productID'],
+              quantity: cartItem['quantity'],
+              productName: cartItem['productName']),
         );
         notifyListeners();
       }
@@ -161,11 +162,11 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> removeOneItemFromFirebase({
-    required String cartID,
-    required String productID,
-    required int quantity,
-  }) async {
+  Future<void> removeOneItemFromFirebase(
+      {required String cartID,
+      required String productID,
+      required int quantity,
+      required String productName}) async {
     try {
       // Remove the item locally from _cartItems
       _cartItems.remove(productID);
@@ -180,6 +181,7 @@ class CartProvider with ChangeNotifier {
             "cartID": cartID,
             'productID': productID,
             'quantity': quantity,
+            'productName': productName
           }
         ])
       });

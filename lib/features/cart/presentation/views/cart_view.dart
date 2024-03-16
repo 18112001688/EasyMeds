@@ -50,6 +50,15 @@ class _CartViewState extends State<CartView> {
         final cartProvider = Provider.of<CartProvider>(context, listen: false);
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
+        List<Map<String, dynamic>> cartItems = [];
+
+        for (var cartItem in cartProvider.getCartItem.values) {
+          cartItems.add({
+            'productName': cartItem.productName,
+            'quantity': cartItem.quantity,
+          });
+        }
+
         await FirebaseFirestore.instance.collection('userCheckoutOrders').add({
           'userName': auth!.displayName,
           'userEmail': auth.email,
@@ -58,7 +67,8 @@ class _CartViewState extends State<CartView> {
           'deliveryAddress': address,
           'totalItems': 'Total items (${cartProvider.getCartItem.length})',
           'getTotal':
-              '\$${cartProvider.getTotal(productProvider: productProvider)}'
+              '\$${cartProvider.getTotal(productProvider: productProvider)}',
+          'items': cartItems
         });
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.buildSnackBar(

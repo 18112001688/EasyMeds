@@ -110,6 +110,7 @@ class CustomCart extends StatelessWidget {
                   IconButton(
                       onPressed: () {
                         cartProvider.removeOneItemFromFirebase(
+                            productName: cartModelProvider.productName,
                             cartID: cartModelProvider.cartID,
                             productID: getCurrentProduct.productID,
                             quantity: cartModelProvider.quantity);
