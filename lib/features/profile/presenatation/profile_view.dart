@@ -127,7 +127,9 @@ class _ProfileViewState extends State<ProfileView>
               ),
               CustomProfileOptions(
                 image: AppImages.document,
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push('/OrdersHistoryView');
+                },
                 text: 'orders',
               ),
               CustomProfileOptions(
