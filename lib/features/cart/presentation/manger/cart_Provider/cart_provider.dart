@@ -30,7 +30,8 @@ class CartProvider with ChangeNotifier {
           cartID: item.cartID,
           productID: productID,
           quantity: quantity,
-          productName: item.productName),
+          productName: item.productName,
+          productImage: item.productImage),
     );
 
     notifyListeners();
@@ -74,6 +75,7 @@ class CartProvider with ChangeNotifier {
     required String productID,
     required int quantity,
     required String productName,
+    required String productImage,
     required BuildContext context,
   }) async {
     final User? user = auth.currentUser;
@@ -111,7 +113,8 @@ class CartProvider with ChangeNotifier {
             cartID: cartID,
             productID: productID,
             quantity: quantity,
-            productName: productName),
+            productName: productName,
+            productImage: productImage),
       );
 
       notifyListeners();
@@ -140,7 +143,8 @@ class CartProvider with ChangeNotifier {
               cartID: cartItem['cartID'],
               productID: cartItem['productID'],
               quantity: cartItem['quantity'],
-              productName: cartItem['productName']),
+              productName: cartItem['productName'],
+              productImage: cartItem['productImage']),
         );
         notifyListeners();
       }
@@ -162,11 +166,13 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> removeOneItemFromFirebase(
-      {required String cartID,
-      required String productID,
-      required int quantity,
-      required String productName}) async {
+  Future<void> removeOneItemFromFirebase({
+    required String cartID,
+    required String productID,
+    required int quantity,
+    required String productName,
+    required String productImage,
+  }) async {
     try {
       // Remove the item locally from _cartItems
       _cartItems.remove(productID);
@@ -181,7 +187,8 @@ class CartProvider with ChangeNotifier {
             "cartID": cartID,
             'productID': productID,
             'quantity': quantity,
-            'productName': productName
+            'productName': productName,
+            'productImage': productImage
           }
         ])
       });

@@ -55,6 +55,8 @@ class _CartViewState extends State<CartView> {
           cartItems.add({
             'productName': cartItem.productName,
             'quantity': cartItem.quantity,
+            'productImage': cartItem.productImage
+
           });
         }
 

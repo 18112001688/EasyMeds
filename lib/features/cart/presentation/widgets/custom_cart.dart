@@ -113,7 +113,8 @@ class CustomCart extends StatelessWidget {
                             productName: cartModelProvider.productName,
                             cartID: cartModelProvider.cartID,
                             productID: getCurrentProduct.productID,
-                            quantity: cartModelProvider.quantity);
+                            quantity: cartModelProvider.quantity,
+                            productImage: cartModelProvider.productImage);
                       },
                       icon: const Icon(
                         Icons.delete_outline_rounded,

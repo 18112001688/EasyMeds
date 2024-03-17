@@ -136,6 +136,7 @@ class ProductDetailsView extends StatelessWidget {
                             }
                             try {
                               await cartProvider.addToCartFirebase(
+                                  productImage: getCurrentProduct.productImage,
                                   productName: getCurrentProduct.productTitle,
                                   productID: getCurrentProduct.productID,
                                   quantity: 1,

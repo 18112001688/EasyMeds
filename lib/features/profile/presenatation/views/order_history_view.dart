@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/features/profile/data/models/order_check_out_model.dart';
-import 'package:medcs/features/profile/presenatation/manger/check_out_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:medcs/features/search/presentation/widgets/build_order_card.dart';
 
 class OrdersHistoryView extends StatelessWidget {
   const OrdersHistoryView({Key? key}) : super(key: key);
@@ -13,10 +13,19 @@ class OrdersHistoryView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Orders History'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                _deleteHistory(context);
+              },
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
+              ))
+        ],
       ),
       body: StreamBuilder<List<CheckoutOrder>>(
-        stream:
-            _fetchOrdersStream(), // Your method to get the stream of CheckoutOrders
+        stream: _fetchOrdersStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -31,22 +40,7 @@ class OrdersHistoryView extends StatelessWidget {
               itemCount: checkoutOrders.length,
               itemBuilder: (context, index) {
                 final CheckoutOrder order = checkoutOrders[index];
-
-                return ListTile(
-                  title: Text(order.userName),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Delivery Address: ${order.deliveryAddress}',
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                      Text('Total Items: ${order.totalItems}'),
-                      Text(
-                          'Total: ${order.getTotal}'), // Call the method getTotal
-                    ],
-                  ),
-                );
+                return buildOrderCard(context, order);
               },
             );
           }
@@ -62,5 +56,33 @@ class OrdersHistoryView extends StatelessWidget {
         .map((snapshot) => snapshot.docs
             .map((doc) => CheckoutOrder.fromFirestore(doc))
             .toList());
+  }
+
+  Future<void> _deleteHistory(BuildContext context) async {
+    try {
+      MyAppMethods.showWarningDialouge(
+          isError: true,
+          context: context,
+          label: 'Are you sure you want to delete the order history',
+          onPressedOk: () async {
+            await FirebaseFirestore.instance
+                .collection('userCheckoutOrders')
+                .get()
+                .then((snapshot) {
+              for (DocumentSnapshot doc in snapshot.docs) {
+                doc.reference.delete();
+              }
+            });
+            GoRouter.of(context).pop();
+          },
+          onPressedCancel: () {
+            GoRouter.of(context).pop();
+          });
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error: $error'),
+        backgroundColor: Colors.red,
+      ));
+    }
   }
 }
