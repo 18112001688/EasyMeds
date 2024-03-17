@@ -36,7 +36,6 @@ class _CartViewState extends State<CartView> {
 
   Future<void> checkOut() async {
     try {
-      print('address: $address');
       setState(() {
         _isLoading = true;
       });
@@ -60,7 +59,8 @@ class _CartViewState extends State<CartView> {
         }
 
         await FirebaseFirestore.instance.collection('userCheckoutOrders').add({
-          'userName': auth!.displayName,
+          'userID': auth!.uid,
+          'userName': auth.displayName,
           'userEmail': auth.email,
           'userPhone': auth.phoneNumber,
           'userImage': auth.photoURL,

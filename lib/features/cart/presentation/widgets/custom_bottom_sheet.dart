@@ -74,7 +74,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             address = newAddress;
                           });
                         }
-                        print('address is $address');
                       },
                       child: const Icon(Icons.arrow_forward_ios),
                     )
