@@ -65,7 +65,7 @@ abstract class StylesLight {
     fontSize: 11,
     fontWeight: FontWeight.w500,
     fontFamily: 'inter',
-    color: AppColors.secondryBlack,
+    color: AppColors.secondryLight,
   );
 }
 
