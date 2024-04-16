@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/core/utlity/styles.dart';
@@ -88,15 +89,35 @@ class ProductDetailsView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Description',
-                        style: StylesDark.bodySmall13,
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Description',
+                            style: StylesDark.bodySmall13,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              GoRouter.of(context).push('/ReviewsView');
+                            },
+                            child: const Text(
+                              'Reviews',
+                              style: TextStyle(
+                                  color: AppColors.secondryOrange,
+                                  fontSize: 16),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         getCurrentProduct.productDescription,
                         style: const TextStyle(fontSize: 16),
                       ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [],
+                      )
                     ],
                   ),
                 ),

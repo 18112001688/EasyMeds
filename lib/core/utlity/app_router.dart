@@ -10,6 +10,7 @@ import 'package:medcs/features/favourite/presentation/views/wishlist_view.dart';
 import 'package:medcs/features/home/prsentation/views/bottomNavBar_view.dart';
 import 'package:medcs/features/home/prsentation/views/home_view.dart';
 import 'package:medcs/features/home/prsentation/views/product_details_view.dart';
+import 'package:medcs/features/home/prsentation/views/reviews_view.dart';
 import 'package:medcs/features/home/prsentation/views/upload_prescription_view.dart';
 import 'package:medcs/features/profile/presenatation/views/order_history_view.dart';
 import 'package:medcs/features/search/presentation/views/search_view.dart';
@@ -86,6 +87,10 @@ class AppRoute {
       GoRoute(
         path: '/OrdersHistoryView',
         builder: (context, state) => const OrdersHistoryView(),
+      ),
+      GoRoute(
+        path: '/ReviewsView',
+        builder: (context, state) => const ReviewsView(),
       ),
     ],
   );

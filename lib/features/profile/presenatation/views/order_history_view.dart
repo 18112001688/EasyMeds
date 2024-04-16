@@ -73,7 +73,9 @@ class OrdersHistoryView extends StatelessWidget {
                 doc.reference.delete();
               }
             });
-            GoRouter.of(context).pop();
+            if (context.mounted) {
+              GoRouter.of(context).pop();
+            }
           },
           onPressedCancel: () {
             GoRouter.of(context).pop();
