@@ -5,7 +5,8 @@ import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 
 class ReviewsView extends StatefulWidget {
-  const ReviewsView({super.key});
+  const ReviewsView({super.key, required this.productId});
+  final String productId;
 
   @override
   State<ReviewsView> createState() => _ReviewsViewState();
@@ -53,7 +54,8 @@ class _ReviewsViewState extends State<ReviewsView> {
                 CustomPrimaryButton(
                     label: 'Add Review',
                     onPressed: () {
-                      GoRouter.of(context).push('/AddReviewView');
+                      GoRouter.of(context)
+                          .push('/AddReviewView', extra: widget.productId);
                     },
                     color: AppColors.secondryOrange,
                     borderRadius: 5,

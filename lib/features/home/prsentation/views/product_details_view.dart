@@ -99,7 +99,8 @@ class ProductDetailsView extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              GoRouter.of(context).push('/ReviewsView');
+                              GoRouter.of(context).push('/ReviewsView',
+                                  extra: getCurrentProduct.productID);
                             },
                             child: const Text(
                               'Reviews',

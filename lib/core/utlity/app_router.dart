@@ -91,11 +91,15 @@ class AppRoute {
       ),
       GoRoute(
         path: '/ReviewsView',
-        builder: (context, state) => const ReviewsView(),
+        builder: (context, state) => ReviewsView(
+          productId: (state.extra as String),
+        ),
       ),
       GoRoute(
         path: '/AddReviewView',
-        builder: (context, state) => const AddReviewView(),
+        builder: (context, state) => AddReviewView(
+          productID: (state.extra as String),
+        ),
       ),
     ],
   );
