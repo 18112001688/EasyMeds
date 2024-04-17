@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
@@ -51,7 +52,9 @@ class _ReviewsViewState extends State<ReviewsView> {
                 ),
                 CustomPrimaryButton(
                     label: 'Add Review',
-                    onPressed: () {},
+                    onPressed: () {
+                      GoRouter.of(context).push('/AddReviewView');
+                    },
                     color: AppColors.secondryOrange,
                     borderRadius: 5,
                     height: 35,
