@@ -13,6 +13,7 @@ import 'package:medcs/features/home/prsentation/widgets/custom_review_field.dart
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class AddReviewView extends StatefulWidget {
   const AddReviewView({super.key, required this.productID});
@@ -152,6 +153,8 @@ class _AddReviewViewState extends State<AddReviewView> {
           });
           // Get the current date and time
           final DateTime now = DateTime.now();
+          String reviewId = const Uuid().v4();
+
           final Timestamp reviewDate = Timestamp.fromDate(now);
           await FirebaseFirestore.instance.collection('UsersReview').add({
             'ProductID': widget.productID,
@@ -159,7 +162,8 @@ class _AddReviewViewState extends State<AddReviewView> {
             'Review': _reviewController.text.trim(),
             'Rating': starRating ?? 0,
             'userImage': user.currentUser!.photoURL,
-            'ReviewDate': reviewDate
+            'ReviewDate': reviewDate,
+            'ReviewID': reviewId
           });
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(

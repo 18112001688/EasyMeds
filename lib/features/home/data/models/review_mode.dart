@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReviewModel {
+  final String reviewId;
   final String productId;
   final double rating;
   final String review;
@@ -11,6 +12,7 @@ class ReviewModel {
 
   ReviewModel(
       {required this.rating,
+      required this.reviewId,
       required this.reviewDate,
       required this.productId,
       required this.review,
@@ -21,6 +23,7 @@ class ReviewModel {
     Map data = doc.data() as Map<String, dynamic>;
 
     return ReviewModel(
+      reviewId: data['ReviewID'],
       productId: data['ProductID'],
       rating: data['Rating'],
       review: data['Review'],
