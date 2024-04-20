@@ -16,6 +16,9 @@ class CustomNameReviewField extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return 'Please enter a valid name';
           }
+          if (value.length > 20) {
+            return 'Name should not exceed 14 characters';
+          }
           return null;
         },
         decoration: InputDecoration(

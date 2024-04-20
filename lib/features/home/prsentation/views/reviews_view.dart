@@ -6,7 +6,9 @@ import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/start_rating_read_only.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/home/data/models/review_mode.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
+import 'package:provider/provider.dart';
 
 class ReviewsView extends StatefulWidget {
   const ReviewsView({super.key, required this.productId});
@@ -21,12 +23,15 @@ class _ReviewsViewState extends State<ReviewsView> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Reviews',
-          style: StylesLight.bodyLarge17,
+          style: themeProvider.isDarkMode
+              ? StylesDark.bodyLarge17
+              : StylesLight.bodyLarge17,
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -47,69 +52,72 @@ class _ReviewsViewState extends State<ReviewsView> {
                   .toList();
 
               // Calculate average star rating
-              final totalRatings = reviews.fold<double>(0,
-                  (previousValue, element) => previousValue + (element.rating));
+              final totalRatings = reviews.fold<double>(
+                0,
+                (previousValue, element) => previousValue + (element.rating),
+              );
+              // Calculate average rating
               starRating = totalRatings / reviews.length;
+              // Format the average rating to have one digit after the decimal point
+              starRating = double.parse(starRating!.toStringAsFixed(1));
 
-              // if (reviews.isEmpty) {
-              //   // Display message when there are no reviews
-              //   return const Center(
-              //     child: Text('No reviews for this product.'),
-              //   );
-              // }
-
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                '${reviews.length} Reviews',
-                                style: StylesLight.bodyMeduim15,
-                              ),
-                              Row(
-                                children: [
-                                  Text(starRating.toString()),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      StarRatingReadOnly(
-                                        initialRating: starRating ?? 0,
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          CustomPrimaryButton(
-                              label: 'Add Review',
-                              onPressed: () {
-                                GoRouter.of(context).push('/AddReviewView',
-                                    extra: widget.productId);
-                              },
-                              color: AppColors.secondryOrange,
-                              borderRadius: 5,
-                              height: 35,
-                              width: 125,
-                              borderColor: AppColors.secondryOrange,
-                              labelColor: Colors.white,
-                              fontSize: 13)
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      ListView.builder(
+              return Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              '${reviews.length} Reviews',
+                              style: themeProvider.isDarkMode
+                                  ? StylesDark.bodyMeduim15
+                                  : StylesLight.bodyMeduim15,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  reviews.isEmpty ? '0' : starRating.toString(),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    StarRatingReadOnly(
+                                      initialRating: starRating ?? 0,
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        CustomPrimaryButton(
+                            label: 'Add Review',
+                            onPressed: () {
+                              GoRouter.of(context).push('/AddReviewView',
+                                  extra: widget.productId);
+                            },
+                            color: AppColors.secondryOrange,
+                            borderRadius: 5,
+                            height: 35,
+                            width: 125,
+                            borderColor: AppColors.secondryOrange,
+                            labelColor: Colors.white,
+                            fontSize: 13)
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
                         itemCount: reviews.length,
                         shrinkWrap: true,
+                        physics: const AlwaysScrollableScrollPhysics(),
                         itemBuilder: ((context, index) {
                           final review = reviews[index];
                           final reviewDateTime = review.reviewDate.toDate();
@@ -125,71 +133,26 @@ class _ReviewsViewState extends State<ReviewsView> {
                               comment: review.review,
                               image: review.userImage,
                               reviewID: review.reviewId,
-                              onLongPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text('Delete Review'),
-                                    content: const Text(
-                                        'Are you sure you want to delete this review?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(
-                                            context), // Cancel deletion
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () async {
-                                          try {
-                                            // Get a reference to the review document in Firestore using reviewId
-                                            final reviewRef = FirebaseFirestore
-                                                .instance
-                                                .collection('UsersReview')
-                                                .doc(review.reviewId);
-
-                                            // Delete the review document
-                                            await reviewRef.delete();
-
-                                            setState(() {});
-
-                                            // Show success message
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    'Review deleted successfully'),
-                                              ),
-                                            );
-                                          } catch (e) {
-                                            // Show error message if deletion fails
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                    'Failed to delete review: $e'),
-                                                backgroundColor: Colors.red,
-                                              ),
-                                            );
-                                          }
-                                        },
-                                        child: const Text('Delete'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
                             ),
                           );
                         }),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             }
           }),
     );
   }
+  //  void deleteReview(String reviewID) {
+  //   FirebaseFirestore.instance
+  //     .collection('UsersReview')
+  //     .doc(reviewID)
+  //     .delete()
+  //     .then((_) => print("Review deleted"))
+  //     .catchError((error) => print("Review deletion failed: $error"));
+  // }
 }
 
 class CustomUserReview extends StatelessWidget {
@@ -200,7 +163,6 @@ class CustomUserReview extends StatelessWidget {
     required this.starRating,
     required this.comment,
     required this.image,
-    required this.onLongPressed,
     required this.reviewID,
   }) : super(key: key);
 
@@ -209,89 +171,94 @@ class CustomUserReview extends StatelessWidget {
   final double starRating;
   final String comment;
   final String image;
-  final VoidCallback onLongPressed;
   final String reviewID;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: onLongPressed,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(image),
-                radius: 25,
-              ),
-              const SizedBox(width: 7),
-              Column(
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(image),
+              radius: 25,
+            ),
+            const SizedBox(width: 7),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userName,
+                  style: themeProvider.isDarkMode
+                      ? StylesDark.bodyMeduim15
+                      : StylesLight.bodyMeduim15,
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 45),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.watch_later_outlined,
+                        size: 15,
+                        color: AppColors.secondryLight,
+                      ),
+                      const SizedBox(width: 7),
+                      Text(
+                        date,
+                        style: StylesLight.bodyExtraSmallGrey11,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userName,
-                    style: const TextStyle(fontSize: 14),
+                  Row(
+                    children: [
+                      Text(starRating.toString()),
+                      const Text(
+                        ' rating',
+                        style: StylesDark.bodyExtraSmallGrey11,
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 45),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.watch_later_outlined,
-                          size: 15,
-                          color: AppColors.secondryLight,
-                        ),
-                        const SizedBox(width: 7),
-                        Text(
-                          date,
-                          style: StylesLight.bodyExtraSmallGrey11,
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(starRating.toString()),
-                        const Text(
-                          ' rating',
-                          style: StylesDark.bodyExtraSmallGrey11,
-                        )
-                      ],
-                    ),
-                    Row(children: [
+                  Row(
+                    children: [
                       StarRatingReadOnly(
                         starSize: 15,
                         initialRating: starRating,
                       )
-                    ]),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            comment,
-            style: const TextStyle(color: AppColors.secondryLight),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            height: 1,
-            width: double.infinity,
-            color: Colors.grey[200],
-          )
-        ],
-      ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Text(
+          comment,
+          style: const TextStyle(color: AppColors.secondryLight),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          height: 1,
+          width: double.infinity,
+          color: Colors.grey[200],
+        )
+      ],
     );
   }
 }

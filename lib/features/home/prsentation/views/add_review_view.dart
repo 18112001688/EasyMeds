@@ -34,6 +34,14 @@ class _AddReviewViewState extends State<AddReviewView> {
   double? starRating;
 
   @override
+  void dispose() {
+    // Dispose text controllers when the widget is disposed
+    _nameController.dispose();
+    _reviewController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 

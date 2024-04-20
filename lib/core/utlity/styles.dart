@@ -123,7 +123,7 @@ abstract class StylesDark {
     fontSize: 15,
     fontWeight: FontWeight.w500,
     fontFamily: 'inter',
-    color: AppColors.secondryLight,
+    color: Colors.white,
   );
   static const bodyMeduimGrey15 = TextStyle(
     fontSize: 15,
