@@ -48,4 +48,7 @@ class AppImages {
   static const family = 'assets/images/family.svg';
   static const health = 'assets/images/health.svg';
   static const lifeStyle = 'assets/images/lifestyle.svg';
+  static const whatsApp = 'assets/images/whatsapp 1.svg';
+  static const twiter = 'assets/images/Twitter.svg';
+  static const gmail = 'assets/images/gmail 1.svg';
 }

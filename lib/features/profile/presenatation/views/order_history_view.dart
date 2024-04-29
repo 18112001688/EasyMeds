@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
+import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/profile/data/models/order_check_out_model.dart';
 import 'package:medcs/features/search/presentation/widgets/build_order_card.dart';
 
@@ -13,7 +14,10 @@ class OrdersHistoryView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Orders History'),
+        title: const Text(
+          'Orders History',
+          style: StylesLight.bodyLarge17,
+        ),
         actions: [
           IconButton(
               onPressed: () {

@@ -131,7 +131,7 @@ class _ProfileViewState extends State<ProfileView>
                 onTap: () {
                   GoRouter.of(context).push('/OrdersHistoryView');
                 },
-                text: 'orders',
+                text: 'orders history',
               ),
               CustomProfileOptions(
                 image: AppImages.contactUs2,
@@ -141,13 +141,10 @@ class _ProfileViewState extends State<ProfileView>
                 text: 'contact us',
               ),
               CustomProfileOptions(
-                image: AppImages.inviteFriends,
-                onTap: () {},
-                text: 'Invite Friends',
-              ),
-              CustomProfileOptions(
                 image: AppImages.chats,
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push('/PrivacyAndPolicy');
+                },
                 text: 'Privacy and Policy',
               ),
               user == null
