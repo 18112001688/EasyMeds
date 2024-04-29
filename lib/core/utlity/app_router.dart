@@ -13,6 +13,7 @@ import 'package:medcs/features/home/prsentation/views/home_view.dart';
 import 'package:medcs/features/home/prsentation/views/product_details_view.dart';
 import 'package:medcs/features/home/prsentation/views/reviews_view.dart';
 import 'package:medcs/features/home/prsentation/views/upload_prescription_view.dart';
+import 'package:medcs/features/profile/presenatation/views/contact_us_view.dart';
 import 'package:medcs/features/profile/presenatation/views/help_center_view.dart';
 import 'package:medcs/features/profile/presenatation/views/order_history_view.dart';
 import 'package:medcs/features/search/presentation/views/search_view.dart';
@@ -105,6 +106,10 @@ class AppRoute {
       GoRoute(
         path: '/HelpCenterView',
         builder: (context, state) => const HelpCenterView(),
+      ),
+      GoRoute(
+        path: '/ContacUsView',
+        builder: (context, state) => const ContactUsView(),
       ),
     ],
   );

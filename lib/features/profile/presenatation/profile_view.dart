@@ -119,7 +119,6 @@ class _ProfileViewState extends State<ProfileView>
                   ],
                 ),
               ),
-              const Spacer(),
               CustomProfileOptions(
                 image: AppImages.helpDisk,
                 onTap: () {
@@ -135,13 +134,10 @@ class _ProfileViewState extends State<ProfileView>
                 text: 'orders',
               ),
               CustomProfileOptions(
-                image: AppImages.language,
-                onTap: () {},
-                text: 'Change Language',
-              ),
-              CustomProfileOptions(
                 image: AppImages.contactUs2,
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push('/ContactUsView');
+                },
                 text: 'contact us',
               ),
               CustomProfileOptions(

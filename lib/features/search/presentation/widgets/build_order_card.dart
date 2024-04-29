@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/profile/data/models/order_check_out_model.dart';
+import 'package:provider/provider.dart';
 
 Widget buildOrderCard(BuildContext context, CheckoutOrder order) {
+  final themeProvider = context.watch<ThemeProvider>();
+
   return Card(
-    color: Colors.white,
+    color: themeProvider.isDarkMode ? AppColors.secondryScaffold : Colors.white,
     elevation: 3,
     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     child: Padding(
