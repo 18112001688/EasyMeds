@@ -13,12 +13,12 @@ class CustomReviewFormField extends StatelessWidget {
       child: TextFormField(
         maxLines: 4000,
         controller: controller,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter a valid Review';
-          }
-          return null;
-        },
+        // validator: (value) {
+        //   if (value == null || value.isEmpty) {
+        //     return 'Please enter a valid Review';
+        //   }
+        //   return null;
+        // },
         decoration: InputDecoration(
           border: const OutlineInputBorder(
               borderSide: BorderSide.none,

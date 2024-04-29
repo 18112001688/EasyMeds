@@ -122,7 +122,9 @@ class _ProfileViewState extends State<ProfileView>
               const Spacer(),
               CustomProfileOptions(
                 image: AppImages.helpDisk,
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push('/HelpCenterView');
+                },
                 text: 'Help Center',
               ),
               CustomProfileOptions(

@@ -115,7 +115,7 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       Text(
                         'Welcome To',
-                        style: StylesDark.bodyMeduim15,
+                        style: StylesDark.bodyLarge17,
                       ),
                       Text(
                         ' EasyMeds',
@@ -179,7 +179,7 @@ class _HomeViewState extends State<HomeView> {
                     crossAxisCount: 2,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                  )
+                  ),
                 ],
               ),
             ),

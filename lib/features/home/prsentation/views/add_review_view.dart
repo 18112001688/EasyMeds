@@ -8,7 +8,6 @@ import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/core/utlity/start_rating.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
-import 'package:medcs/features/home/prsentation/widgets/custom_name_review_field.dart';
 import 'package:medcs/features/home/prsentation/widgets/custom_review_field.dart';
 import 'package:medcs/features/splash/prsentation/widgets/primary_button.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -24,7 +23,6 @@ class AddReviewView extends StatefulWidget {
   State<AddReviewView> createState() => _AddReviewViewState();
 }
 
-TextEditingController _nameController = TextEditingController();
 TextEditingController _reviewController = TextEditingController();
 
 bool _isLoading = false;
@@ -32,13 +30,10 @@ GlobalKey<FormState> _key = GlobalKey();
 
 class _AddReviewViewState extends State<AddReviewView> {
   double? starRating;
-
   @override
-  void dispose() {
-    // Dispose text controllers when the widget is disposed
-    _nameController.dispose();
-    _reviewController.dispose();
-    super.dispose();
+  void initState() {
+    _reviewController.clear();
+    super.initState();
   }
 
   @override
@@ -50,9 +45,11 @@ class _AddReviewViewState extends State<AddReviewView> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text(
+          title: Text(
             'Add Review',
-            style: StylesLight.bodyLarge17,
+            style: themeProvider.isDarkMode
+                ? StylesDark.bodyLarge17White
+                : StylesLight.bodyLarge17,
           ),
         ),
         body: Form(
@@ -63,25 +60,11 @@ class _AddReviewViewState extends State<AddReviewView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Name',
-                    style: StylesLight.bodyLarge17,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomNameReviewField(
-                    controller: _nameController,
-                    fillColor: themeProvider.isDarkMode
-                        ? AppColors.secondryScaffold
-                        : const Color(0xffF5F6FA),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const Text(
+                  Text(
                     'How was your experience ?',
-                    style: StylesLight.bodyLarge17,
+                    style: themeProvider.isDarkMode
+                        ? StylesDark.bodyLarge17White
+                        : StylesLight.bodyLarge17,
                   ),
                   const SizedBox(
                     height: 10,
@@ -95,9 +78,11 @@ class _AddReviewViewState extends State<AddReviewView> {
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text(
+                  Text(
                     'Star',
-                    style: StylesLight.bodyLarge17,
+                    style: themeProvider.isDarkMode
+                        ? StylesDark.bodyLarge17
+                        : StylesLight.bodyLarge17,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,17 +151,18 @@ class _AddReviewViewState extends State<AddReviewView> {
           final Timestamp reviewDate = Timestamp.fromDate(now);
           await FirebaseFirestore.instance.collection('UsersReview').add({
             'ProductID': widget.productID,
-            'UserName': _nameController.text.trim(),
+            'UserID': user.currentUser!.uid,
+            'ReviewID': reviewId,
+            'UserName': user.currentUser!.displayName,
             'Review': _reviewController.text.trim(),
-            'Rating': starRating ?? 0,
+            'Rating': starRating ?? 0.0,
             'userImage': user.currentUser!.photoURL,
             'ReviewDate': reviewDate,
-            'ReviewID': reviewId
           });
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
                 CustomSnackBar.buildSnackBar(
-                    message: 'your Review is saved successfully',
+                    message: 'Thank You for Reviewing our products',
                     color: Colors.green));
           }
           if (mounted) {

@@ -109,7 +109,7 @@ abstract class StylesDark {
   );
   static const bodyLarge17White = TextStyle(
     fontSize: 17,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     fontFamily: 'inter',
     color: Colors.white,
   );
