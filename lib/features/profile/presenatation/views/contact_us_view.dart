@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/search/presentation/widgets/custom_conatct_us.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsView extends StatefulWidget {
@@ -28,13 +28,15 @@ class _ContactUsViewState extends State<ContactUsView> {
             icon: AppImages.facebook,
             text: "Facebook",
             ontap: () {
-              _launchUrl('https://www.google.com/');
+              _launchUrl('https://www.facebook.com/');
             },
           ),
           CustomContactUsWidget(
             icon: AppImages.whatsApp,
             text: "WhatsApp",
-            ontap: () {},
+            ontap: () {
+              _launchWhatsApp('+20102994491');
+            },
           ),
           CustomContactUsWidget(
             icon: AppImages.twiter,
@@ -85,51 +87,10 @@ Future<void> _launchEmail(String email) async {
   await launchUrl(emailLaunchUri);
 }
 
-class CustomContactUsWidget extends StatelessWidget {
-  const CustomContactUsWidget({
-    super.key,
-    required this.text,
-    required this.icon,
-    required this.ontap,
-  });
-
-  final String text;
-  final String icon;
-  final VoidCallback ontap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 10),
-      child: GestureDetector(
-        onTap: ontap,
-        child: Container(
-          height: 51,
-          width: 304,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 15,
-              ),
-              SvgPicture.asset(icon),
-              const SizedBox(
-                width: 75,
-              ),
-              Text(
-                text,
-                style: StylesLight.bodyLarge17,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+Future<void> _launchWhatsApp(String phoneNumber) async {
+  String whatsappUrl = "whatsapp://send?phone=$phoneNumber";
+  if (await launchUrl(Uri.parse(whatsappUrl))) {
+  } else {
+    throw 'Could not launch WhatsApp';
   }
 }
