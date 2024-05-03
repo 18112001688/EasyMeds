@@ -56,7 +56,6 @@ class _CartViewState extends State<CartView> {
             'productName': cartItem.productName,
             'quantity': cartItem.quantity,
             'productImage': cartItem.productImage
-
           });
         }
 
@@ -294,47 +293,115 @@ class _CartViewState extends State<CartView> {
                   ),
                 ),
               ),
-              appBar: AppBar(
-                leading: null,
-                title: const Text('Cart'),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      MyAppMethods.showWarningDialouge(
-                        context: context,
-                        isError: false,
-                        label:
-                            'Are you sure you want to delete all items in your cart?',
-                        onPressedOk: () {
-                          cartProvider.clearCartFromFirebase();
-                          GoRouter.of(context).pop();
-                        },
-                        onPressedCancel: () {
-                          GoRouter.of(context).pop();
-                        },
-                      );
-                    },
-                    icon: const Icon(Icons.delete),
+              // appBar: AppBar(
+              //   leading: null,
+              //   title: const Text('Cart'),
+              //   actions: [
+              //     IconButton(
+              //       onPressed: () {
+              //         MyAppMethods.showWarningDialouge(
+              //           context: context,
+              //           isError: false,
+              //           label:
+              //               'Are you sure you want to delete all items in your cart?',
+              //           onPressedOk: () {
+              //             cartProvider.clearCartFromFirebase();
+              //             GoRouter.of(context).pop();
+              //           },
+              //           onPressedCancel: () {
+              //             GoRouter.of(context).pop();
+              //           },
+              //         );
+              //       },
+              //       icon: const Icon(Icons.delete),
+              //     ),
+              //   ],
+              // ),
+              body: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 20),
+                    child: CustomAppBar(
+                      title: 'Cart',
+                      onDeletePressed: () {
+                        MyAppMethods.showWarningDialouge(
+                          context: context,
+                          isError: false,
+                          label:
+                              'Are you sure you want to delete all items in your cart?',
+                          onPressedOk: () {
+                            cartProvider.clearCartFromFirebase();
+                            GoRouter.of(context).pop();
+                          },
+                          onPressedCancel: () {
+                            GoRouter.of(context).pop();
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 100),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(bottom: 200),
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: cartProvider.getCartItem.length,
+                        itemBuilder: (context, index) =>
+                            ChangeNotifierProvider.value(
+                          value: cartProvider.getCartItem.values
+                              .toList()
+                              .reversed
+                              .toList()[index],
+                          child: const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: CustomCart(),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              body: ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(bottom: 200),
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: cartProvider.getCartItem.length,
-                itemBuilder: (context, index) => ChangeNotifierProvider.value(
-                  value: cartProvider.getCartItem.values
-                      .toList()
-                      .reversed
-                      .toList()[index],
-                  child: const Padding(
-                    padding: EdgeInsets.all(6.0),
-                    child: CustomCart(),
-                  ),
-                ),
-              ),
             ),
           );
+  }
+}
+
+class CustomAppBar extends StatelessWidget {
+  final String title;
+  final VoidCallback onDeletePressed;
+
+  const CustomAppBar({
+    Key? key,
+    required this.title,
+    required this.onDeletePressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: kToolbarHeight, // Use the same height as AppBar
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      color: Colors.white, // Customize the background color
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 120),
+            child: Text(
+              title,
+              style: StylesLight.bodyLarge17,
+            ),
+          ),
+          IconButton(
+            onPressed: onDeletePressed,
+            icon: const Icon(Icons.delete),
+            color: Colors.black,
+          ),
+        ],
+      ),
+    );
   }
 }
