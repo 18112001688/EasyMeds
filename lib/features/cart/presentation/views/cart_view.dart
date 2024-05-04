@@ -293,76 +293,54 @@ class _CartViewState extends State<CartView> {
                   ),
                 ),
               ),
-              // appBar: AppBar(
-              //   leading: null,
-              //   title: const Text('Cart'),
-              //   actions: [
-              //     IconButton(
-              //       onPressed: () {
-              //         MyAppMethods.showWarningDialouge(
-              //           context: context,
-              //           isError: false,
-              //           label:
-              //               'Are you sure you want to delete all items in your cart?',
-              //           onPressedOk: () {
-              //             cartProvider.clearCartFromFirebase();
-              //             GoRouter.of(context).pop();
-              //           },
-              //           onPressedCancel: () {
-              //             GoRouter.of(context).pop();
-              //           },
-              //         );
-              //       },
-              //       icon: const Icon(Icons.delete),
-              //     ),
-              //   ],
-              // ),
-              body: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 20),
-                    child: CustomAppBar(
-                      title: 'Cart',
-                      onDeletePressed: () {
-                        MyAppMethods.showWarningDialouge(
-                          context: context,
-                          isError: false,
-                          label:
-                              'Are you sure you want to delete all items in your cart?',
-                          onPressedOk: () {
-                            cartProvider.clearCartFromFirebase();
-                            GoRouter.of(context).pop();
-                          },
-                          onPressedCancel: () {
-                            GoRouter.of(context).pop();
-                          },
-                        );
-                      },
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: CustomAppBar(
+                        title: 'Cart',
+                        onDeletePressed: () {
+                          MyAppMethods.showWarningDialouge(
+                            context: context,
+                            isError: false,
+                            label:
+                                'Are you sure you want to delete all items in your cart?',
+                            onPressedOk: () {
+                              cartProvider.clearCartFromFirebase();
+                              GoRouter.of(context).pop();
+                            },
+                            onPressedCancel: () {
+                              GoRouter.of(context).pop();
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.only(bottom: 200),
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: cartProvider.getCartItem.length,
-                        itemBuilder: (context, index) =>
-                            ChangeNotifierProvider.value(
-                          value: cartProvider.getCartItem.values
-                              .toList()
-                              .reversed
-                              .toList()[index],
-                          child: const Padding(
-                            padding: EdgeInsets.all(6.0),
-                            child: CustomCart(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 100),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(bottom: 200),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: cartProvider.getCartItem.length,
+                          itemBuilder: (context, index) =>
+                              ChangeNotifierProvider.value(
+                            value: cartProvider.getCartItem.values
+                                .toList()
+                                .reversed
+                                .toList()[index],
+                            child: const Padding(
+                              padding: EdgeInsets.all(6.0),
+                              child: CustomCart(),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

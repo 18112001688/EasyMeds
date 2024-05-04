@@ -96,28 +96,33 @@ class CustomProductCard extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 130, left: 5),
                         child: Row(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(getCurrentProduct.productTitle,
-                                    style: titleTextStyle),
-                                Text(
-                                  getCurrentProduct.productQuantity,
-                                  style: const TextStyle(
-                                      color: AppColors.secondryLight,
-                                      fontSize: 11,
-                                      fontFamily: 'inter',
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                const SizedBox(height: 3),
-                                Text(
-                                  "${getCurrentProduct.productPrice.toString()}\$",
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'inter',
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getCurrentProduct.productTitle,
+                                    style: titleTextStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    getCurrentProduct.productQuantity,
+                                    style: const TextStyle(
+                                        color: AppColors.secondryLight,
+                                        fontSize: 11,
+                                        fontFamily: 'inter',
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    "${getCurrentProduct.productPrice.toString()}\$",
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'inter',
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

@@ -42,7 +42,9 @@ class _SearchFormFieldState extends State<SearchFormField> {
               ? const Color(0xff222E34)
               : const Color(0xffF5F6FA),
           hintText: 'Search..',
-          hintStyle: StylesDark.bodyMeduim15,
+          hintStyle: themeProvider.isDarkMode
+              ? StylesDark.bodyMeduim15
+              : StylesLight.bodyMeduim15,
           prefixIcon: const Icon(
             IconlyLight.search,
             color: AppColors.secondryLight,

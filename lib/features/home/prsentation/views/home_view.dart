@@ -1,6 +1,5 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medcs/core/constent/app_constant.dart';
 import 'package:medcs/core/constent/colors.dart';
@@ -13,67 +12,8 @@ import 'package:medcs/features/home/prsentation/widgets/upload_prescription_card
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
 import 'package:provider/provider.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-double _opacity = 1;
-
-class _HomeViewState extends State<HomeView> {
-  final ScrollController _scrollController = ScrollController();
-  final ScrollController _secondryScrollController = ScrollController();
-
-  @override
-  // The initState method is called exactly once and then never again.
-// It must be defined as part of the State class in a StatefulWidget.
-  void initState() {
-    // Always call super.initState() first.
-    super.initState();
-
-    // Initialize _opacity to 1. This means the widget starts fully visible.
-    _opacity = 1;
-
-    // Add a listener to _scrollController. This listener is a function that gets
-    // called whenever the user scrolls.
-    _scrollController.addListener(() {
-      // Check if the user is scrolling up or down.
-      // ScrollDirection.reverse means the user is scrolling down.
-      if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        // If the user is scrolling down, call setState to rebuild the widget tree.
-        // Set _opacity to 0, which means the widget becomes fully transparent.
-        if (mounted) {
-          setState(() {
-            _opacity = 0;
-          });
-        }
-      }
-
-      // ScrollDirection.forward means the user is scrolling up.
-      if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        // If the user is scrolling up, call setState to rebuild the widget tree.
-        // Set _opacity to 1, which means the widget becomes fully visible again.
-        if (mounted) {
-          setState(() {
-            _opacity = 1;
-          });
-        }
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(() {});
-    _secondryScrollController
-        .removeListener(() {}); // Remove the scroll listener
-    // Cancel any timers (replace _timer with your timer variable)
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +33,6 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       body: SingleChildScrollView(
-        controller: _scrollController,
         child: SafeArea(
           child: SizedBox(
             width: double.infinity,
@@ -127,25 +66,9 @@ class _HomeViewState extends State<HomeView> {
                       )
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Row(
-                    children: [],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: AnimatedOpacity(
-                      duration: const Duration(seconds: 2),
-                      opacity: _opacity,
-                      child: const CustomUploadPrescriptionCard(),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
+                  const Padding(
+                    padding: EdgeInsets.only(right: 12, top: 10, bottom: 20),
+                    child: CustomUploadPrescriptionCard(),
                   ),
                   Row(children: [
                     Text(
@@ -168,7 +91,6 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   DynamicHeightGridView(
-                    controller: _secondryScrollController,
                     builder: (context, index) => ChangeNotifierProvider.value(
                       value: productProvider.getProducts[index],
                       child: CustomProductCard(

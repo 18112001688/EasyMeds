@@ -35,14 +35,6 @@ class ProductDetailsView extends StatelessWidget {
         title: const Text(
           'Product Details',
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(IconlyLight.buy),
-            onPressed: () {
-              // Handle cart button press
-            },
-          ),
-        ],
       ),
       body: getCurrentProduct == null
           ? const SizedBox.shrink()
@@ -75,11 +67,13 @@ class ProductDetailsView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            getCurrentProduct.productTitle,
-                            style: themeProvider.isDarkMode
-                                ? StylesDark.titleRegualar22White
-                                : StylesLight.titleRegualar22,
+                          Flexible(
+                            child: Text(
+                              getCurrentProduct.productTitle,
+                              style: themeProvider.isDarkMode
+                                  ? StylesDark.bodyMeduim15
+                                  : StylesLight.bodyMeduim15,
+                            ),
                           ),
                           Text(
                             "${getCurrentProduct.productPrice.toString()}\$", // Replace with the actual price
