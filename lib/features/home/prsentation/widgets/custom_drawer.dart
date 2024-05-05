@@ -59,27 +59,65 @@ class CustomHomeDrawer extends StatelessWidget {
           ),
           user == null
               ? const SizedBox.shrink()
-              : const CustomListTile(
-                  image: AppImages.accountInfo,
-                  title: 'Account Information',
+              //     image: AppImages.accountInfo,
+              //     title: 'Account Information',
+              //   ),
+              // const CustomListTile(
+              //   image: AppImages.category,
+              //   title: 'Category',
+              // ),
+              // GestureDetector(
+              //   onTap: () {
+              //     GoRouter.of(context).push('/WishListView');
+              //   },
+              //   child: ListTile(
+              //     leading: Icon(
+              //       IconlyLight.heart,
+              //       color: themeProvider.isDarkMode
+              //           ? AppColors.secondryLight
+              //           : AppColors.secondryBlack,
+              //     ),
+              //     title: Text(
+              //       'WishList',
+              //       style: themeProvider.isDarkMode
+              //           ? StylesDark.bodyLarge17
+              //           : StylesLight.bodyLarge17,
+              //     ),
+              //   ),
+              // ),
+              // : const CustomListTile(
+              : ListTile(
+                  leading: Icon(
+                    Icons.help_outline,
+                    color: themeProvider.isDarkMode
+                        ? AppColors.secondryLight
+                        : AppColors.secondryBlack,
+                  ),
+                  title: GestureDetector(
+                    onTap: () {
+                      GoRouter.of(context).push('/ContactUsView');
+                    },
+                    child: Text(
+                      'Contact us',
+                      style: themeProvider.isDarkMode
+                          ? StylesDark.bodyLarge17
+                          : StylesLight.bodyLarge17,
+                    ),
+                  ),
                 ),
-          const CustomListTile(
-            image: AppImages.category,
-            title: 'Category',
-          ),
-          GestureDetector(
-            onTap: () {
-              GoRouter.of(context).push('/WishListView');
-            },
-            child: ListTile(
-              leading: Icon(
-                IconlyLight.heart,
-                color: themeProvider.isDarkMode
-                    ? AppColors.secondryLight
-                    : AppColors.secondryBlack,
-              ),
-              title: Text(
-                'WishList',
+          ListTile(
+            leading: Icon(
+              Icons.supervisor_account_rounded,
+              color: themeProvider.isDarkMode
+                  ? AppColors.secondryLight
+                  : AppColors.secondryBlack,
+            ),
+            title: GestureDetector(
+              onTap: () {
+                GoRouter.of(context).push('/HelpCenterView');
+              },
+              child: Text(
+                'Help',
                 style: themeProvider.isDarkMode
                     ? StylesDark.bodyLarge17
                     : StylesLight.bodyLarge17,
@@ -88,30 +126,21 @@ class CustomHomeDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
-              Icons.help_outline,
+              Icons.history_edu_outlined,
               color: themeProvider.isDarkMode
                   ? AppColors.secondryLight
                   : AppColors.secondryBlack,
             ),
-            title: Text(
-              'Contact us',
-              style: themeProvider.isDarkMode
-                  ? StylesDark.bodyLarge17
-                  : StylesLight.bodyLarge17,
-            ),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.supervisor_account_rounded,
-              color: themeProvider.isDarkMode
-                  ? AppColors.secondryLight
-                  : AppColors.secondryBlack,
-            ),
-            title: Text(
-              'Help',
-              style: themeProvider.isDarkMode
-                  ? StylesDark.bodyLarge17
-                  : StylesLight.bodyLarge17,
+            title: GestureDetector(
+              onTap: () {
+                GoRouter.of(context).push('/OrderHistoryView');
+              },
+              child: Text(
+                'Order History',
+                style: themeProvider.isDarkMode
+                    ? StylesDark.bodyLarge17
+                    : StylesLight.bodyLarge17,
+              ),
             ),
           ),
           user == null
