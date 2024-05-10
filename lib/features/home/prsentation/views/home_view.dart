@@ -28,8 +28,16 @@ class HomeView extends StatelessWidget {
             Scaffold.of(context).openDrawer();
           },
           child: themeProvider.isDarkMode
-              ? const Icon(Icons.menu)
-              : SvgPicture.asset(AppImages.menu),
+              ? SvgPicture.asset(
+                  AppImages.menu,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
+                )
+              : SvgPicture.asset(
+                  AppImages.menu,
+                ),
         ),
       ),
       body: SingleChildScrollView(

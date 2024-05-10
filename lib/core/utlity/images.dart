@@ -44,11 +44,11 @@ class AppImages {
   static const vitmin = 'assets/images/vitmins.svg';
   static const group = 'assets/images/Group.svg';
   static const largeParcemtal = 'assets/images/parcemntal.png';
-  static const menuWhite = 'assets/images/Vector_white.svg';
   static const family = 'assets/images/family.svg';
   static const health = 'assets/images/health.svg';
   static const lifeStyle = 'assets/images/lifestyle.svg';
   static const whatsApp = 'assets/images/whatsapp 1.svg';
   static const twiter = 'assets/images/Twitter.svg';
   static const gmail = 'assets/images/gmail 1.svg';
+  static const menuWhite = 'assets/images/Vector_White (3).svg';
 }

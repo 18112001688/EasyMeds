@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
@@ -8,6 +7,7 @@ import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/images.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:medcs/features/home/prsentation/widgets/custom_profile_data.dart';
 import 'package:provider/provider.dart';
 
 class CustomHomeDrawer extends StatelessWidget {
@@ -59,33 +59,6 @@ class CustomHomeDrawer extends StatelessWidget {
           ),
           user == null
               ? const SizedBox.shrink()
-              //     image: AppImages.accountInfo,
-              //     title: 'Account Information',
-              //   ),
-              // const CustomListTile(
-              //   image: AppImages.category,
-              //   title: 'Category',
-              // ),
-              // GestureDetector(
-              //   onTap: () {
-              //     GoRouter.of(context).push('/WishListView');
-              //   },
-              //   child: ListTile(
-              //     leading: Icon(
-              //       IconlyLight.heart,
-              //       color: themeProvider.isDarkMode
-              //           ? AppColors.secondryLight
-              //           : AppColors.secondryBlack,
-              //     ),
-              //     title: Text(
-              //       'WishList',
-              //       style: themeProvider.isDarkMode
-              //           ? StylesDark.bodyLarge17
-              //           : StylesLight.bodyLarge17,
-              //     ),
-              //   ),
-              // ),
-              // : const CustomListTile(
               : ListTile(
                   leading: Icon(
                     Icons.help_outline,
@@ -133,7 +106,7 @@ class CustomHomeDrawer extends StatelessWidget {
             ),
             title: GestureDetector(
               onTap: () {
-                GoRouter.of(context).push('/OrderHistoryView');
+                GoRouter.of(context).push('/OrdersHistoryView');
               },
               child: Text(
                 'Order History',
@@ -178,87 +151,6 @@ class CustomHomeDrawer extends StatelessWidget {
                   ),
                 ),
         ],
-      ),
-    );
-  }
-}
-
-class CustomProfileData extends StatelessWidget {
-  const CustomProfileData({super.key, required this.image, required this.name});
-
-  final String image;
-  final String name;
-
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 60),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(image),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: themeProvider.isDarkMode
-                        ? StylesDark.bodyLarge17
-                        : StylesLight.bodyLarge17,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Verified Profile',
-                        style: themeProvider.isDarkMode
-                            ? StylesDark.bodyExtraSmallGrey11
-                            : StylesLight.bodyExtraSmallGrey11,
-                      ),
-                      SvgPicture.asset(AppImages.badge),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomListTile extends StatelessWidget {
-  const CustomListTile({super.key, required this.image, required this.title});
-  final String image;
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-
-    return ListTile(
-      leading: SvgPicture.asset(
-        image,
-        colorFilter: ColorFilter.mode(
-          themeProvider.isDarkMode
-              ? AppColors.secondryLight
-              : AppColors.secondryBlack,
-          BlendMode.srcIn,
-        ),
-      ),
-      title: Text(
-        title,
-        style: themeProvider.isDarkMode
-            ? StylesDark.bodyLarge17
-            : StylesLight.bodyLarge17,
       ),
     );
   }

@@ -9,6 +9,8 @@ class ThemeManager {
         color: AppColors.scaffoldLightMode,
       ),
     );
+
+    
   }
 
   static ThemeData darkTheme() {

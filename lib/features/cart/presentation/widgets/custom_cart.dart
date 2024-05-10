@@ -26,7 +26,7 @@ class CustomCart extends StatelessWidget {
         ? const Text('No Products fonund')
         : Container(
             height: 120,
-            width: 335,
+            width: 330,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: themeProvider.isDarkMode
@@ -83,26 +83,36 @@ class CustomCart extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     child: Column(
                       children: [
-                        Text(
-                          getCurrentProduct.productTitle,
-                          style: themeProvider.isDarkMode
-                              ? StylesDark.bodyLarge17
-                              : StylesLight.bodyLarge17,
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            getCurrentProduct.productTitle,
+                            style: themeProvider.isDarkMode
+                                ? StylesDark.bodyLarge17
+                                : StylesLight.bodyLarge17,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          "\$${getCurrentProduct.productPrice}",
-                          style: const TextStyle(
-                              color: AppColors.secondryLight, fontSize: 16),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 100),
+                          child: Text(
+                            "\$${getCurrentProduct.productPrice}",
+                            style: const TextStyle(
+                                color: AppColors.secondryLight, fontSize: 16),
+                          ),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        CustomQuantity(
-                          qunatity: cartModelProvider.quantity,
-                          cartModel: cartModelProvider,
+                        Padding(
+                          padding: const EdgeInsets.only(right: 100),
+                          child: CustomQuantity(
+                            qunatity: cartModelProvider.quantity,
+                            cartModel: cartModelProvider,
+                          ),
                         ),
                       ],
                     ),

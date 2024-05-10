@@ -85,7 +85,12 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
     return Scaffold(
         bottomNavigationBar: SizedBox(
           height: 80,
-          child: BottomNavigationBar(
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            ),
+            child: BottomNavigationBar(
               backgroundColor: themeProvider.isDarkMode
                   ? AppColors.secondryScaffold
                   : AppColors.scaffoldLightMode,
@@ -166,7 +171,9 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                           color: AppColors.secondryLight),
                   label: "",
                 ),
-              ]),
+              ],
+            ),
+          ),
         ),
         body: views[currentIndex],
         drawer: const CustomHomeDrawer());
