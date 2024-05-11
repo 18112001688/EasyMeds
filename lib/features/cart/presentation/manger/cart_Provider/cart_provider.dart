@@ -143,8 +143,8 @@ class CartProvider with ChangeNotifier {
               cartID: cartItem['cartID'],
               productID: cartItem['productID'],
               quantity: cartItem['quantity'],
-              productName: cartItem['productName'],
-              productImage: cartItem['productImage']),
+              productName: "",
+              productImage: ""),
         );
         notifyListeners();
       }

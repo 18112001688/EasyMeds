@@ -24,7 +24,12 @@ class AuthSevice {
 
     // Access user information
     final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    final userDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get();
+
+    if (!userDoc.exists) {
       // Add user data to Firestore
       await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
         "userID": user.uid,
@@ -56,8 +61,12 @@ class AuthSevice {
 
     // Access user information
     final user = FirebaseAuth.instance.currentUser;
+    final userDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get();
 
-    if (user != null) {
+    if (!userDoc.exists) {
       // Add user data to Firestore
       await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
         "userID": user.uid,
