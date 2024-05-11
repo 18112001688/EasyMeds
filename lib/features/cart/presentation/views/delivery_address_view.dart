@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/custom_loading.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/core/utlity/styles.dart';
@@ -40,22 +41,23 @@ class _DeliveryAdressViewState extends State<DeliveryAdressView> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              GoRouter.of(context).pop();
-            },
-            icon: const Icon(Icons.arrow_back)),
-        title: const Text(
-          'Address',
-          style: StylesLight.bodyLarge17SemiBold,
+    return ModalProgressHUD(
+      inAsyncCall: _isLoading,
+      progressIndicator: const CustomLoadingIndicator(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                GoRouter.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: const Text(
+            'Address',
+            style: StylesLight.bodyLarge17SemiBold,
+          ),
         ),
-      ),
-      body: Form(
-        key: _key,
-        child: ModalProgressHUD(
-          inAsyncCall: _isLoading,
+        body: Form(
+          key: _key,
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -176,7 +178,10 @@ class _DeliveryAdressViewState extends State<DeliveryAdressView> {
                     color: Colors.green));
           }
           if (mounted) {
-            Navigator.of(context).pop(_addressController.text.trim());
+            Navigator.of(context).pop({
+              'address': _addressController.text.trim(),
+              'phone': _phoneNumberController.text.trim(),
+            });
           }
         } catch (e) {
           rethrow;

@@ -10,6 +10,7 @@ import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/core/utlity/styles.dart';
 import 'package:medcs/features/cart/presentation/manger/cart_Provider/cart_provider.dart';
 import 'package:medcs/features/cart/presentation/views/delivery_address_view.dart';
+import 'package:medcs/features/cart/presentation/widgets/custom_app_bar.dart';
 import 'package:medcs/features/cart/presentation/widgets/custom_cart.dart';
 import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
 import 'package:medcs/features/search/presentation/manger/providers/product_provider.dart';
@@ -25,12 +26,14 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  String address = 'No address added'; // Initialize with default value
+  String address = 'No address added';
+  String phone = 'no phone';
   bool _isLoading = false;
 
-  void updateAddress(String newAddress) {
+  void updateAddress(String newAddress, String newPhone) {
     setState(() {
       address = newAddress;
+      phone = newPhone;
     });
   }
 
@@ -63,7 +66,7 @@ class _CartViewState extends State<CartView> {
           'userID': auth!.uid,
           'userName': auth.displayName,
           'userEmail': auth.email,
-          'userPhone': auth.phoneNumber,
+          'userPhone': phone,
           'userImage': auth.photoURL,
           'deliveryAddress': address,
           'totalItems': 'Total items (${cartProvider.getCartItem.length})',
@@ -174,15 +177,17 @@ class _CartViewState extends State<CartView> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  final newAddress = await Navigator.push(
+                                  final result = await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           const DeliveryAdressView(),
                                     ),
                                   );
-                                  if (newAddress != null) {
-                                    updateAddress(newAddress);
+                                  if (result != null) {
+                                    String newAddress = result['address'];
+                                    String newphone = result['phone'];
+                                    updateAddress(newAddress, newphone);
                                   }
                                 },
                                 child: const Icon(Icons.arrow_forward_ios),
@@ -344,42 +349,5 @@ class _CartViewState extends State<CartView> {
               ),
             ),
           );
-  }
-}
-
-class CustomAppBar extends StatelessWidget {
-  final String title;
-  final VoidCallback onDeletePressed;
-
-  const CustomAppBar({
-    Key? key,
-    required this.title,
-    required this.onDeletePressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: kToolbarHeight, // Use the same height as AppBar
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      color: Colors.white, // Customize the background color
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 120),
-            child: Text(
-              title,
-              style: StylesLight.bodyLarge17,
-            ),
-          ),
-          IconButton(
-            onPressed: onDeletePressed,
-            icon: const Icon(Icons.delete),
-            color: Colors.black,
-          ),
-        ],
-      ),
-    );
   }
 }

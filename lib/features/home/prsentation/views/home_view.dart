@@ -19,7 +19,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     final productProvider = context.watch<ProductProvider>();
-    return Scaffold(
+    return Scaffold( 
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         scrolledUnderElevation: 0,
