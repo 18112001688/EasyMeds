@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
@@ -11,6 +12,7 @@ class OrdersHistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = FirebaseAuth.instance;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -19,38 +21,44 @@ class OrdersHistoryView extends StatelessWidget {
           style: StylesLight.bodyLarge17,
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                _deleteHistory(context);
-              },
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ))
+          auth.currentUser == null
+              ? const SizedBox.shrink()
+              : IconButton(
+                  onPressed: () {
+                    _deleteHistory(context);
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ))
         ],
       ),
-      body: StreamBuilder<List<CheckoutOrder>>(
-        stream: _fetchOrdersStream(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final List<CheckoutOrder>? checkoutOrders = snapshot.data;
-            if (checkoutOrders == null || checkoutOrders.isEmpty) {
-              return const Center(child: Text('No orders found.'));
-            }
-            return ListView.builder(
-              itemCount: checkoutOrders.length,
-              itemBuilder: (context, index) {
-                final CheckoutOrder order = checkoutOrders[index];
-                return buildOrderCard(context, order);
+      body: auth.currentUser == null
+          ? const Center(
+              child: Text('Please login to view your orders history.'),
+            )
+          : StreamBuilder<List<CheckoutOrder>>(
+              stream: _fetchOrdersStream(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final List<CheckoutOrder>? checkoutOrders = snapshot.data;
+                  if (checkoutOrders == null || checkoutOrders.isEmpty) {
+                    return const Center(child: Text('No orders found.'));
+                  }
+                  return ListView.builder(
+                    itemCount: checkoutOrders.length,
+                    itemBuilder: (context, index) {
+                      final CheckoutOrder order = checkoutOrders[index];
+                      return buildOrderCard(context, order);
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
-      ),
+            ),
     );
   }
 
