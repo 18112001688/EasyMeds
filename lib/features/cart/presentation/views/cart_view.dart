@@ -61,8 +61,6 @@ class _CartViewState extends State<CartView> {
             'productImage': cartItem.productImage
           });
         }
-        print('Cart Items: $cartItems');
-
         await FirebaseFirestore.instance.collection('userCheckoutOrders').add({
           'userID': auth!.uid,
           'userName': auth.displayName,
@@ -211,9 +209,11 @@ class _CartViewState extends State<CartView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
+                              Text(
                                 'Payment',
-                                style: StylesLight.bodyLarge17,
+                                style: themeProvider.isDarkMode
+                                    ? StylesDark.bodyLarge17White
+                                    : StylesLight.bodyLarge17,
                               ),
                               GestureDetector(
                                 onTap: () {

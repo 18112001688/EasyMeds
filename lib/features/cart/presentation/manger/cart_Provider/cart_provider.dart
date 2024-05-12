@@ -137,7 +137,10 @@ class CartProvider with ChangeNotifier {
       if (data == null || !data.containsKey('userCart')) {
         return;
       }
+
       final cartList = List<Map<String, dynamic>>.from(data['userCart']);
+      _cartItems.clear();
+
       for (final cartItem in cartList) {
         _cartItems.putIfAbsent(
           cartItem['cartID'],
@@ -148,6 +151,7 @@ class CartProvider with ChangeNotifier {
               productName: cartItem['productName'],
               productImage: cartItem['productImage']),
         );
+        // Notify listeners after each item is added
         notifyListeners();
       }
     } catch (e) {
@@ -176,11 +180,6 @@ class CartProvider with ChangeNotifier {
     required String productImage,
   }) async {
     try {
-      // Remove the item locally from _cartItems
-      _cartItems.remove(productID);
-      // Notify listeners to update UI immediately
-      notifyListeners();
-
       // Update Firestore document to reflect the removed item
       User? user = auth.currentUser;
       await usersDB.doc(user!.uid).update({
@@ -196,11 +195,15 @@ class CartProvider with ChangeNotifier {
       });
 
       // Fetch updated cart from Firebase to ensure consistency
+      await fetchCart();
+
+      // Remove the item locally from _cartItems
+      _cartItems.remove(productID);
+
+      // Notify listeners to update UI immediately after local state is updated
+      notifyListeners();
     } catch (e) {
       // Handle any errors that may occur during the update process
-
-      notifyListeners();
-      // Rethrow the error to propagate it upwards
       rethrow;
     }
   }
