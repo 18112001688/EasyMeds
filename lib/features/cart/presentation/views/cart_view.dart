@@ -61,6 +61,7 @@ class _CartViewState extends State<CartView> {
             'productImage': cartItem.productImage
           });
         }
+        print('Cart Items: $cartItems');
 
         await FirebaseFirestore.instance.collection('userCheckoutOrders').add({
           'userID': auth!.uid,

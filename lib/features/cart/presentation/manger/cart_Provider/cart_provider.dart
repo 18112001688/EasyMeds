@@ -102,6 +102,8 @@ class CartProvider with ChangeNotifier {
             "cartID": cartID,
             'productID': productID,
             'quantity': quantity,
+            'productName': productName, // Include productName here
+            'productImage': productImage
           }
         ])
       });
@@ -143,8 +145,8 @@ class CartProvider with ChangeNotifier {
               cartID: cartItem['cartID'],
               productID: cartItem['productID'],
               quantity: cartItem['quantity'],
-              productName: "",
-              productImage: ""),
+              productName: cartItem['productName'],
+              productImage: cartItem['productImage']),
         );
         notifyListeners();
       }

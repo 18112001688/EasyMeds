@@ -29,7 +29,7 @@ Widget buildOrderCard(BuildContext context, CheckoutOrder order) {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
-                      image: NetworkImage(item['productImage'] ?? ''),
+                      image: NetworkImage(item['productImage']),
                       fit: BoxFit.cover,
                     ),
                   ),
