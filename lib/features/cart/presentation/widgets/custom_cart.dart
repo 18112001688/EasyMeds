@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
@@ -75,8 +76,28 @@ class CustomCart extends StatelessWidget {
                               : const Color(0xffE8F3F1),
                           width: 2,
                         )),
-                    child: Image.network(
-                      getCurrentProduct.productImage,
+                    child: CachedNetworkImage(
+                      imageUrl: getCurrentProduct.productImage,
+                      fit: BoxFit.contain,
+                      errorWidget: (context, url, error) => Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 40,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Failed to load image',
+                            style: TextStyle(
+                              color: themeProvider.isDarkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/styles.dart';
+import 'package:medcs/features/home/prsentation/manger/them_provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class PaymentView extends StatefulWidget {
   const PaymentView({super.key});
@@ -15,6 +17,7 @@ String? selectedPaymentOption;
 class _PaymentViewState extends State<PaymentView> {
   @override
   Widget build(BuildContext context) {
+    final themeProvide = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -22,21 +25,22 @@ class _PaymentViewState extends State<PaymentView> {
               GoRouter.of(context).pop();
             },
             child: const Icon(Icons.arrow_back)),
-        title: const Text('Payment',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'inter',
-              fontSize: 17,
-            )),
+        title: Text(
+          'Payment',
+          style: themeProvide.isDarkMode
+              ? StylesDark.bodyLarge17White
+              : StylesLight.bodyLarge17,
+        ),
       ),
       body: Column(
         children: [
           RadioListTile(
             activeColor: AppColors.secondryOrange,
-            title: const Text(
+            title: Text(
               'Pay with Cash',
-              style: StylesLight.bodyLarge17,
+              style: themeProvide.isDarkMode
+                  ? StylesDark.bodyLarge17White
+                  : StylesLight.bodyLarge17,
             ),
             value: 'cash',
             groupValue: selectedPaymentOption,
@@ -48,9 +52,11 @@ class _PaymentViewState extends State<PaymentView> {
           ),
           RadioListTile(
             activeColor: AppColors.secondryOrange,
-            title: const Text(
+            title: Text(
               'Pay with Payment Methods',
-              style: StylesLight.bodyLarge17,
+              style: themeProvide.isDarkMode
+                  ? StylesDark.bodyLarge17White
+                  : StylesLight.bodyLarge17,
             ),
             value: 'payment_method',
             groupValue: selectedPaymentOption,
