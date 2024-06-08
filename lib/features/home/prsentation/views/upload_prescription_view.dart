@@ -124,18 +124,18 @@ class _UploadPrescriptionViewState extends State<UploadPrescriptionView> {
   @override
   Widget build(BuildContext context) {
     final themePorvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              GoRouter.of(context).pop();
-            },
-            icon: const Icon(Icons.arrow_back)),
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: _isLoading,
-        progressIndicator: const CustomLoadingIndicator(),
-        child: SingleChildScrollView(
+    return ModalProgressHUD(
+      inAsyncCall: _isLoading,
+      progressIndicator: const CustomLoadingIndicator(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                GoRouter.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+        ),
+        body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

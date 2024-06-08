@@ -249,6 +249,6 @@ class CustomProductCard extends StatelessWidget {
 
   Future<void> _loadProductData(String productId) async {
     // Simulate a network call to load product data
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
   }
 }
