@@ -83,99 +83,110 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
     final wishListProvider = Provider.of<WishListProvider>(context);
 
     return Scaffold(
-        bottomNavigationBar: SizedBox(
-          height: 80,
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            ),
-            child: BottomNavigationBar(
-              backgroundColor: themeProvider.isDarkMode
-                  ? AppColors.secondryScaffold
-                  : AppColors.scaffoldLightMode,
-              onTap: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              currentIndex: currentIndex,
-              items: [
-                BottomNavigationBarItem(
-                  icon: currentIndex == 0
-                      ? const Text(
-                          'Home',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                          ),
-                        )
-                      : const Icon(
-                          IconlyLight.home,
-                          color: AppColors.secondryLight,
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: themeProvider.isDarkMode
+                ? AppColors.secondryScaffold
+                : AppColors.scaffoldLightMode,
+            type: BottomNavigationBarType.fixed,
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            currentIndex: currentIndex,
+            items: [
+              BottomNavigationBarItem(
+                icon: currentIndex == 0
+                    ? const Text(
+                        'Home',
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
                         ),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                  icon: currentIndex == 1
-                      ? const Text(
-                          'Search',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                          ),
-                        )
-                      : const Icon(IconlyLight.search,
-                          color: AppColors.secondryLight),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                  icon: currentIndex == 2
-                      ? const Text(
-                          'Cart',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                          ),
-                        )
-                      : Badge(
-                          backgroundColor: AppColors.primaryColor,
-                          label:
-                              Text(cartProvider.getCartItem.length.toString()),
-                          child: const Icon(IconlyLight.buy,
-                              color: AppColors.secondryLight)),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                  icon: currentIndex == 3
-                      ? const Text(
-                          'WishList',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                          ),
-                        )
-                      : Badge(
-                          backgroundColor: Colors.red,
-                          label: Text(wishListProvider.getWishListItems.length
-                              .toString()),
-                          child: const Icon(IconlyLight.heart,
-                              color: AppColors.secondryLight)),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                  icon: currentIndex == 4
-                      ? const Text(
-                          'Profile',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                          ),
-                        )
-                      : const Icon(IconlyLight.profile,
-                          color: AppColors.secondryLight),
-                  label: "",
-                ),
-              ],
-            ),
+                      )
+                    : const Icon(
+                        IconlyLight.home,
+                        color: AppColors.secondryLight,
+                      ),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: currentIndex == 1
+                    ? const Text(
+                        'Search',
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : const Icon(IconlyLight.search,
+                        color: AppColors.secondryLight),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: currentIndex == 2
+                    ? const Text(
+                        'Cart',
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : Badge(
+                        label: Text(
+                          cartProvider.getCartItem.length.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: AppColors.primaryColor,
+                        child: const Icon(IconlyLight.buy,
+                            color: AppColors.secondryLight),
+                      ),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: currentIndex == 3
+                    ? const Text(
+                        'WishList',
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : Badge(
+                        label: Text(
+                          wishListProvider.getWishListItems.length.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.red,
+                        child: const Icon(IconlyLight.heart,
+                            color: AppColors.secondryLight),
+                      ),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: currentIndex == 4
+                    ? const Text(
+                        'Profile',
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : const Icon(IconlyLight.profile,
+                        color: AppColors.secondryLight),
+                label: "",
+              ),
+            ],
           ),
         ),
-        body: views[currentIndex],
-        drawer: const CustomHomeDrawer());
+      ),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: views[currentIndex],
+      ),
+      drawer: const CustomHomeDrawer(),
+    );
   }
 }
