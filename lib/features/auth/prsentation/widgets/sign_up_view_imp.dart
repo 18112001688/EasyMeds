@@ -117,7 +117,9 @@ class _SignUpViewImpState extends State<SignUpViewImp> {
                               style: TextStyle(fontFamily: 'inter'),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                context.push('/TermsAndCondtions');
+                              },
                               child: const Text(
                                 'Terms of Service',
                                 style: TextStyle(

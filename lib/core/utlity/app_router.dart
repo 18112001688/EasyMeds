@@ -18,6 +18,7 @@ import 'package:medcs/features/profile/presenatation/views/contact_us_view.dart'
 import 'package:medcs/features/profile/presenatation/views/help_center_view.dart';
 import 'package:medcs/features/profile/presenatation/views/order_history_view.dart';
 import 'package:medcs/features/profile/presenatation/views/privacy_policy_view.dart';
+import 'package:medcs/features/profile/presenatation/views/terms_and_condtions.dart';
 import 'package:medcs/features/search/presentation/views/search_view.dart';
 import 'package:medcs/features/splash/prsentation/views/get_started_register_view.dart';
 import 'package:medcs/features/splash/prsentation/views/get_started_view.dart';
@@ -120,6 +121,10 @@ class AppRoute {
       GoRoute(
         path: '/RecommendedProductView',
         builder: (context, state) => const RecommendedProductView(),
+      ),
+      GoRoute(
+        path: '/TermsAndCondtions',
+        builder: (context, state) => const TermsAndCondtions(),
       ),
     ],
   );
