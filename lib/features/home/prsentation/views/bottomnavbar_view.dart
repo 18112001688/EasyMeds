@@ -158,7 +158,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                     : Badge(
                         label: Text(
                           wishListProvider.getWishListItems.length.toString(),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         backgroundColor: Colors.red,
                         child: const Icon(IconlyLight.heart,

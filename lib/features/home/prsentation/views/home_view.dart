@@ -1,6 +1,8 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/app_constant.dart';
 import 'package:medcs/core/constent/colors.dart';
 import 'package:medcs/core/utlity/images.dart';
@@ -19,7 +21,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     final productProvider = context.watch<ProductProvider>();
-    return Scaffold( 
+    return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         scrolledUnderElevation: 0,
@@ -39,6 +41,17 @@ class HomeView extends StatelessWidget {
                   AppImages.menu,
                 ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.push('/RecommendedProductView');
+            },
+            icon: const Icon(
+              Icons.recommend,
+              size: 30,
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: SafeArea(

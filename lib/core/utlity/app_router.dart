@@ -11,6 +11,7 @@ import 'package:medcs/features/home/prsentation/views/Add_review_view.dart';
 import 'package:medcs/features/home/prsentation/views/bottomNavBar_view.dart';
 import 'package:medcs/features/home/prsentation/views/home_view.dart';
 import 'package:medcs/features/home/prsentation/views/product_details_view.dart';
+import 'package:medcs/features/home/prsentation/views/recommend_product.dart';
 import 'package:medcs/features/home/prsentation/views/reviews_view.dart';
 import 'package:medcs/features/home/prsentation/views/upload_prescription_view.dart';
 import 'package:medcs/features/profile/presenatation/views/contact_us_view.dart';
@@ -115,6 +116,10 @@ class AppRoute {
       GoRoute(
         path: '/PrivacyAndPolicy',
         builder: (context, state) => const PrivacyAndPolicy(),
+      ),
+      GoRoute(
+        path: '/RecommendedProductView',
+        builder: (context, state) => const RecommendedProductView(),
       ),
     ],
   );
