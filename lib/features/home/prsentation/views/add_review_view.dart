@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medcs/core/constent/colors.dart';
+import 'package:medcs/core/utlity/custom_loading.dart';
 import 'package:medcs/core/utlity/custom_warning.dart';
 import 'package:medcs/core/utlity/sanck_bar.dart';
 import 'package:medcs/core/utlity/start_rating.dart';
@@ -42,6 +43,7 @@ class _AddReviewViewState extends State<AddReviewView> {
 
     return ModalProgressHUD(
       inAsyncCall: _isLoading,
+      progressIndicator: const CustomLoadingIndicator(),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
